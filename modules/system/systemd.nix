@@ -1,7 +1,5 @@
 { ... }: {
   flake.nixosModules.systemd = { ... }: {
-    systemd.extraConfig = ''
-      DefaultTimeoutStopSec=15s
-    '';
+    systemd.settings.Manager.DefaultTimeoutStopSec = "15s";
   };
 }
