@@ -20,6 +20,7 @@
       self.nixosModules.systemd
       self.nixosModules.thunar
       self.nixosModules.users
+      self.nixosModules.wireguard
       self.nixosModules.xdgPortal
     ];
   };
