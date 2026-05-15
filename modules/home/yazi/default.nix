@@ -2,6 +2,7 @@
   flake.homeModules.yazi = { pkgs, ... }: {
     programs.yazi = {
       enable = true;
+      shellWrapperName = "y";
       theme.icon = {
         dirs = [
           {
