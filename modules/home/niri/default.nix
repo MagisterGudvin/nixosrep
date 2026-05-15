@@ -19,7 +19,10 @@
         '';
       };
     in {
-      imports = [ inputs.niri.homeModules.config ];
+      # niri-flake's nixosModule (см. modules/features/niri.nix) уже
+      # подкидывает homeModules.config во все home-manager-users через
+      # home-manager.sharedModules — повторный импорт здесь
+      # дублирует объявление programs.niri.finalConfig и ломает eval.
 
       home.packages = with pkgs; [
         niri-screenshot
