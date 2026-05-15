@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-HOST_DIR="$REPO_ROOT/modules/hosts/myMachine"
+HOST_DIR="$REPO_ROOT/modules/hosts/Forza"
 SRC_CONFIG="${1:-/etc/nixos/configuration.nix}"
 SRC_HW="${2:-/etc/nixos/hardware-configuration.nix}"
 
@@ -24,16 +24,16 @@ sed '/imports[[:space:]]*=[[:space:]]*\[[[:space:]]*\.\/hardware-configuration\.
 
 cat > "$HOST_DIR/hardware.nix" <<'EOF'
 { self, inputs, ... }: {
-  flake.nixosModules.myMachineHardware = import ./hardware-configuration.nix;
+  flake.nixosModules.ForzaHardware = import ./hardware-configuration.nix;
 }
 EOF
 
 cat > "$HOST_DIR/configuration.nix" <<'EOF'
 { self, inputs, ... }: {
 
-  flake.nixosModules.myMachineConfiguration = { pkgs, lib, ... }: {
+  flake.nixosModules.ForzaConfiguration = { pkgs, lib, ... }: {
     imports = [
-      self.nixosModules.myMachineHardware
+      self.nixosModules.ForzaHardware
       self.nixosModules.niri
       ./original-configuration.nix
     ];
@@ -51,5 +51,5 @@ echo "Rewrote:"
 echo "  $HOST_DIR/hardware.nix"
 echo "  $HOST_DIR/configuration.nix"
 echo
-echo "Next: edit modules/hosts/myMachine/default.nix if you want to rename the host,"
-echo "then run: sudo nixos-rebuild switch --flake .#myMachine"
+echo "Next: edit modules/hosts/Forza/default.nix if you want to rename the host,"
+echo "then run: sudo nixos-rebuild switch --flake .#Forza"
