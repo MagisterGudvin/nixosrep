@@ -1,5 +1,5 @@
 { ... }: {
-  flake.nixosModules.systemPackages = { pkgs, ... }: {
+  flake.nixosModules.packages = { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
       git
       vim
