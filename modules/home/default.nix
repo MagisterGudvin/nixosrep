@@ -12,11 +12,11 @@
           inputs.noctalia.homeModules.default
 
           self.homeModules.bash
-          self.homeModules.deployFiles
           self.homeModules.fastfetch
           self.homeModules.fish
           self.homeModules.git
           self.homeModules.gtk
+          self.homeModules.niri
           self.homeModules.noctalia
           self.homeModules.obsidian
           self.homeModules.packages
