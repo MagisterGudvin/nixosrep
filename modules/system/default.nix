@@ -15,6 +15,7 @@
       self.nixosModules.power
       self.nixosModules.radeon
       self.nixosModules.services
+      self.nixosModules.steam
       self.nixosModules.systemd
       self.nixosModules.users
       self.nixosModules.xdgPortal
