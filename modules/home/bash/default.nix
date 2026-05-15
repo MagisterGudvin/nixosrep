@@ -1,5 +1,7 @@
 { ... }: {
   flake.homeModules.bash = { pkgs, ... }: {
+    programs.starship.enable = true;
+
     programs.bash = {
       enable = true;
 

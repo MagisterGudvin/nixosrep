@@ -21,7 +21,6 @@
           self.homeModules.obsidian
           self.homeModules.packages
           self.homeModules.rofi
-          self.homeModules.shell
           self.homeModules.tools
           self.homeModules.yazi
         ];
