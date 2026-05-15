@@ -209,7 +209,7 @@
 
           # --- Прозрачность + закругления для конкретных приложений ---
           {
-            matches = [ { app-id = "^foot$"; } ];
+            matches = [ { app-id = "^kitty$"; } ];
             opacity = 0.92;
             draw-border-with-background = false;
             geometry-corner-radius = {
@@ -304,8 +304,8 @@
 
         binds = {
           # --- Apps ---
-          "Mod+Return".action.spawn = [ "foot" ];
-          "Mod+E".action.spawn = [ "foot" ];
+          "Mod+Return".action.spawn = [ "kitty" ];
+          "Mod+E".action.spawn = [ "kitty" ];
           "Mod+B".action.spawn = [ "brave" ];
           "Mod+Q".action.spawn = [ "thunar" ];
 

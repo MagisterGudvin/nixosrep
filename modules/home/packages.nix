@@ -15,7 +15,6 @@
       nwg-menu                   # меню для nwg-drawer / nwg-panel
 
       # --- Файловые менеджеры (TUI) ---
-      lf
       yazi
 
       # --- Утилиты ---
@@ -26,10 +25,6 @@
       mpv
       cassette                   # клиент Яндекс.Музыки (GTK4)
       zathura
-
-      # --- БД и инструменты разработки БД ---
-      postgresql_17
-      prisma-engines
 
       # --- Экран / буфер обмена ---
       wlr-randr
@@ -44,7 +39,7 @@
       blockbench                 # low-poly 3D model editor (Minecraft и др.)
 
       # --- Wayland-десктоп: терминал, лаунчер ---
-      foot                       # терминал по умолчанию (Mod+Return/Mod+E)
+      kitty                      # терминал по умолчанию (Mod+Return/Mod+E)
                                  # rofi приходит через programs.rofi.enable (modules/home/rofi)
 
       # --- Скриншоты ---
