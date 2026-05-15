@@ -104,22 +104,22 @@
             "Mod+Shift+B".spawn-sh = "${noctalia} ipc call bar toggle";
             "Mod+Shift+N".spawn-sh = "${noctalia} ipc call nightLight toggle";
 
-            # --- Media (работают и на lock-экране) ---
-            "Mod+P" = { spawn-sh = "playerctl play-pause"; allow-when-locked = true; };
-            "Mod+comma" = { spawn-sh = "playerctl previous"; allow-when-locked = true; };
-            "Mod+period" = { spawn-sh = "playerctl next"; allow-when-locked = true; };
+            # --- Media ---
+            "Mod+P".spawn-sh = "playerctl play-pause";
+            "Mod+comma".spawn-sh = "playerctl previous";
+            "Mod+period".spawn-sh = "playerctl next";
 
-            "XF86AudioPlay" = { spawn-sh = "playerctl play-pause"; allow-when-locked = true; };
-            "XF86AudioNext" = { spawn-sh = "playerctl next"; allow-when-locked = true; };
-            "XF86AudioPrev" = { spawn-sh = "playerctl previous"; allow-when-locked = true; };
+            "XF86AudioPlay".spawn-sh = "playerctl play-pause";
+            "XF86AudioNext".spawn-sh = "playerctl next";
+            "XF86AudioPrev".spawn-sh = "playerctl previous";
 
-            "XF86AudioRaiseVolume" = { spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"; allow-when-locked = true; };
-            "XF86AudioLowerVolume" = { spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; allow-when-locked = true; };
-            "XF86AudioMute"        = { spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; allow-when-locked = true; };
-            "XF86AudioMicMute"     = { spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; allow-when-locked = true; };
+            "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+            "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+            "XF86AudioMute".spawn-sh        = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+            "XF86AudioMicMute".spawn-sh     = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
 
-            "XF86MonBrightnessUp"   = { spawn-sh = "brightnessctl set 5%+"; allow-when-locked = true; };
-            "XF86MonBrightnessDown" = { spawn-sh = "brightnessctl set 5%-"; allow-when-locked = true; };
+            "XF86MonBrightnessUp".spawn-sh   = "brightnessctl set 5%+";
+            "XF86MonBrightnessDown".spawn-sh = "brightnessctl set 5%-";
           };
         };
       };
