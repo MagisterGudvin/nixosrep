@@ -26,20 +26,38 @@ cd /mnt/etc/nixos
 
 > Можно класть куда угодно (например `/mnt/home/gooblin/nixosrep`) — путь к flake-у явный, `/etc/nixos` это просто привычка.
 
-### 1.3. Сверь hardware-конфиг с автодетектом
+### 1.3. Собери hardware-configuration.nix для этой машины
 
-`nixos-generate-config` смотрит на железо примонтированной системы и пишет `hardware-configuration.nix` с найденными `boot.initrd.availableKernelModules`, `boot.kernelModules`, `hostPlatform` и т.п.
+`nixos-generate-config` смотрит на железо примонтированной системы и пишет `hardware-configuration.nix` с автодетектом `boot.initrd.availableKernelModules`, `boot.kernelModules`, `hostPlatform` и т.п. — то, что специфично именно для этого ноутбука.
 
-В репе всё это уже задано вручную (`modules/hosts/Forza/hardware.nix`, `modules/system/cpu.nix`, `modules/system/nix.nix`). Но генератор может найти модули, которых нет в твоём списке (например, для нестандартного NVMe-контроллера или ридера SD). Прогоняем с флагом `--no-filesystems`, чтобы не плодить дубли с `filesystems.nix`:
+В корне репо лежит `insert-etc-nixos.sh`, который:
+1. вызывает `nixos-generate-config --no-filesystems --root /mnt` во временный каталог,
+2. копирует результат в `modules/hosts/Forza/hardware-configuration.nix`,
+3. переписывает `modules/hosts/Forza/hardware.nix` в тонкую обёртку (`flake.nixosModules.ForzaHardware = import ./hardware-configuration.nix;`).
+
+Запуск:
 
 ```bash
-sudo nixos-generate-config --no-filesystems --root /mnt --dir /tmp/genconf
-cat /tmp/genconf/hardware-configuration.nix
+cd /mnt/etc/nixos
+sudo ./insert-etc-nixos.sh /mnt
 ```
 
-Сравни выведенный `boot.initrd.availableKernelModules` со списком в `modules/hosts/Forza/hardware.nix`. Если в сгенерированном есть что-то отсутствующее (типичные кандидаты: `ahci`, `nvme`, `xhci_pci`, `usbhid`, `usb_storage`, `sd_mod`, `sdhci_pci`, `rtsx_pci_sdmmc` для ридеров карт) — допиши недостающее в `hardware.nix` и закоммить позже.
+Проверь дифф (если репо стартовый — увидишь, что заменилось ручное содержимое `hardware.nix` и добавился `hardware-configuration.nix`):
 
-> Зачем `--no-filesystems`: иначе генератор положит автодетектные `fileSystems."/"`, `fileSystems."/boot"`, `swapDevices` — и они конфликтнут с уже описанными в `modules/system/filesystems.nix`. С флагом он эти секции пропускает.
+```bash
+git diff modules/hosts/Forza/
+```
+
+> **Почему `--no-filesystems`:** иначе генератор припишет автодетектные `fileSystems."/"`, `fileSystems."/boot"` и `swapDevices`, которые конфликтнут с уже описанными в `modules/system/filesystems.nix`. Скрипт всегда зовёт генератор с этим флагом.
+
+> Конфликта с другими модулями нет: автогенерированный файл выставляет `nixpkgs.hostPlatform`, `boot.kernelModules += [kvm-amd]`, `hardware.cpu.amd.updateMicrocode` через `lib.mkDefault`, так что явные значения в `modules/system/{cpu,nix}.nix` побеждают. Списки `boot.initrd.availableKernelModules` мёржатся, ничего не теряется.
+
+Если на этой машине автодетект уже совпадает с тем, что лежит в репо — коммитить нечего; если есть отличия, потом закоммитишь:
+
+```bash
+git add modules/hosts/Forza/hardware-configuration.nix modules/hosts/Forza/hardware.nix
+git commit -m "Sync hardware-configuration for Forza"
+```
 
 ### 1.4. Накати систему
 
