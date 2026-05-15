@@ -2,11 +2,10 @@
   flake.homeModules.packages = { pkgs, ... }: {
     home.packages = with pkgs; [
       # --- Внешний вид / темы ---
+      # Иконки Papirus / Adwaita / Hicolor / Breeze и курсор volantes
+      # переехали в environment.systemPackages (modules/system/packages.nix),
+      # чтобы попадать в XDG_DATA_DIRS niri-сессии.
       awww                       # просмотр и установка GTK/иконок/курсоров одной командой
-      papirus-icon-theme         # основной набор иконок Papirus-Dark
-      hicolor-icon-theme         # обязательный fallback по freedesktop spec
-      adwaita-icon-theme         # дефолтные иконки GNOME — fallback для GTK
-      kdePackages.breeze-icons   # дефолтные иконки KDE/Qt — fallback для Qt
       adw-gtk3                   # libadwaita-подобная тема для GTK3
       waypaper                   # GUI для выбора обоев (swww/hyprpaper)
 
