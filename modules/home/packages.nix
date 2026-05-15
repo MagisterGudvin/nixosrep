@@ -41,6 +41,9 @@
       vscode-fhs
       brave
 
+      # --- 3D / графика ---
+      blockbench                 # low-poly 3D model editor (Minecraft и др.)
+
       # --- Wayland-десктоп: терминал, лаунчер ---
       foot                       # терминал по умолчанию (Mod+Return/Mod+E)
       rofi                       # dmenu-замена для Mod+V clipboard-pick
