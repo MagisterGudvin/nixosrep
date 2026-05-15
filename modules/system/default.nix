@@ -7,6 +7,7 @@
       self.nixosModules.cpu
       self.nixosModules.filesystems
       self.nixosModules.fwupd
+      self.nixosModules.greetd
       self.nixosModules.locale
       self.nixosModules.network
       self.nixosModules.nix
