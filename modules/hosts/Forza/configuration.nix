@@ -1,8 +1,8 @@
 { self, inputs, ... }: {
 
-  flake.nixosModules.myMachineConfiguration = { pkgs, lib, ... }: {
+  flake.nixosModules.ForzaConfiguration = { pkgs, lib, ... }: {
     imports = [
-      self.nixosModules.myMachineHardware
+      self.nixosModules.ForzaHardware
 
       self.nixosModules.locale
       self.nixosModules.audio
