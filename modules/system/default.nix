@@ -18,6 +18,7 @@
       self.nixosModules.services
       self.nixosModules.steam
       self.nixosModules.systemd
+      self.nixosModules.thunar
       self.nixosModules.users
       self.nixosModules.xdgPortal
     ];

@@ -9,8 +9,17 @@
   perSystem = { pkgs, lib, ... }:
     let
       noctalia = lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      term = lib.getExe pkgs.foot;
+      term = "${lib.getExe pkgs.foot} fish";
       blank = _: {};
+      shotDir = "$HOME/Pictures/Screenshots";
+      mkShot = mode: ''
+        mkdir -p ${shotDir}
+        ${pkgs.grim}/bin/grim ${
+          if mode == "area"
+          then "-g \"$(${pkgs.slurp}/bin/slurp)\""
+          else ""
+        } - | tee ${shotDir}/$(date +%Y-%m-%d_%H-%M-%S).png | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png
+      '';
     in {
       packages.myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
@@ -23,44 +32,52 @@
 
           input.keyboard.xkb.layout = "us,ru";
 
-          layout.gaps = 5;
+          layout = {
+            gaps = 5;
+            preset-column-widths = [
+              { proportion = 0.5; }
+              { proportion = 0.75; }
+              { proportion = 1.0; }
+            ];
+          };
 
           binds = {
-            # --- Запуск приложений ---
+            # --- Apps ---
             "Mod+Return".spawn-sh = term;
-            "Mod+T".spawn-sh = term;
-            "Mod+D".spawn-sh = "rofi-launcher";
-            "Mod+W".spawn-sh = "rofi-window";
-            "Mod+E".spawn-sh = "rofi-emoji-pick";
-            "Mod+C".spawn-sh = "rofi-calc-pick";
-            "Mod+S".spawn-sh = "${noctalia} ipc call launcher toggle";
+            "Mod+E".spawn-sh = term;
+            "Mod+B".spawn-sh = lib.getExe pkgs.brave;
+            "Mod+Q".spawn-sh = "${pkgs.xfce.thunar}/bin/thunar";
+            "Mod+Space".spawn-sh = "${noctalia} ipc call launcher toggle";
+            "Mod+Shift+Space".spawn-sh = "${noctalia} ipc call controlCenter toggle";
+            "Mod+W".spawn-sh = lib.getExe pkgs.waypaper;
             "Mod+V".spawn-sh = "cliphist list | rofi -dmenu | cliphist decode | wl-copy";
-            "Print".spawn-sh = "${pkgs.bash}/bin/bash $HOME/.local/bin/niri-screenshot.sh";
+            "Mod+S".spawn-sh = mkShot "area";
+            "Mod+Shift+S".spawn-sh = mkShot "screen";
+            "Mod+Escape".spawn-sh = "${noctalia} ipc call sessionMenu toggle";
 
-            # --- Окна ---
-            "Mod+Q".close-window = blank;
+            # --- Window Management ---
+            "Mod+C".close-window = blank;
             "Mod+F".maximize-column = blank;
             "Mod+Shift+F".fullscreen-window = blank;
-            "Mod+Space".switch-preset-column-width = blank;
-            "Mod+Ctrl+F".center-column = blank;
+            "Mod+T".toggle-window-floating = blank;
+            "Mod+O".toggle-overview = blank;
+            "Mod+R".switch-preset-column-width = blank;
 
-            # --- Фокус (vim-style) ---
             "Mod+H".focus-column-left = blank;
             "Mod+L".focus-column-right = blank;
             "Mod+J".focus-window-down = blank;
             "Mod+K".focus-window-up = blank;
-            "Mod+Left".focus-column-left = blank;
-            "Mod+Right".focus-column-right = blank;
-            "Mod+Down".focus-window-down = blank;
-            "Mod+Up".focus-window-up = blank;
 
-            # --- Перемещение окна ---
-            "Mod+Shift+H".move-column-left = blank;
-            "Mod+Shift+L".move-column-right = blank;
-            "Mod+Shift+J".move-window-down = blank;
-            "Mod+Shift+K".move-window-up = blank;
+            "Mod+Ctrl+H".move-column-left = blank;
+            "Mod+Ctrl+L".move-column-right = blank;
+            "Mod+Ctrl+J".move-window-down = blank;
+            "Mod+Ctrl+K".move-window-up = blank;
 
-            # --- Воркспейсы ---
+            "Mod+Shift+Left".set-column-width = "-10%";
+            "Mod+Shift+Right".set-column-width = "+10%";
+            "Mod+Shift+Up".set-window-height = "-10%";
+            "Mod+Shift+Down".set-window-height = "+10%";
+
             "Mod+1".focus-workspace = 1;
             "Mod+2".focus-workspace = 2;
             "Mod+3".focus-workspace = 3;
@@ -79,25 +96,30 @@
             "Mod+Shift+7".move-column-to-workspace = 7;
             "Mod+Shift+8".move-column-to-workspace = 8;
             "Mod+Shift+9".move-column-to-workspace = 9;
-            "Mod+Page_Down".focus-workspace-down = blank;
-            "Mod+Page_Up".focus-workspace-up = blank;
-            "Mod+Shift+Page_Down".move-column-to-workspace-down = blank;
-            "Mod+Shift+Page_Up".move-column-to-workspace-up = blank;
 
-            # --- Громкость / яркость / медиа ---
-            "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
-            "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-            "XF86AudioMute".spawn-sh        = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-            "XF86AudioMicMute".spawn-sh     = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-            "XF86MonBrightnessUp".spawn-sh   = "brightnessctl set 5%+";
-            "XF86MonBrightnessDown".spawn-sh = "brightnessctl set 5%-";
-            "XF86AudioPlay".spawn-sh = "playerctl play-pause";
-            "XF86AudioNext".spawn-sh = "playerctl next";
-            "XF86AudioPrev".spawn-sh = "playerctl previous";
+            # --- System ---
+            "Mod+Alt+L".spawn-sh = "${noctalia} ipc call lockScreen toggle";
+            "Mod+Shift+L".spawn-sh = "${noctalia} ipc call lockScreen toggle";
+            "Mod+Shift+M".quit = blank;
+            "Mod+Shift+B".spawn-sh = "${noctalia} ipc call bar toggle";
+            "Mod+Shift+N".spawn-sh = "${noctalia} ipc call nightLight toggle";
 
-            # --- Системные ---
-            "Mod+Shift+E".quit = blank;
-            "Mod+Shift+R".spawn-sh = "${pkgs.systemd}/bin/systemctl --user restart niri.service || true";
+            # --- Media (работают и на lock-экране) ---
+            "Mod+P" = { spawn-sh = "playerctl play-pause"; allow-when-locked = true; };
+            "Mod+comma" = { spawn-sh = "playerctl previous"; allow-when-locked = true; };
+            "Mod+period" = { spawn-sh = "playerctl next"; allow-when-locked = true; };
+
+            "XF86AudioPlay" = { spawn-sh = "playerctl play-pause"; allow-when-locked = true; };
+            "XF86AudioNext" = { spawn-sh = "playerctl next"; allow-when-locked = true; };
+            "XF86AudioPrev" = { spawn-sh = "playerctl previous"; allow-when-locked = true; };
+
+            "XF86AudioRaiseVolume" = { spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"; allow-when-locked = true; };
+            "XF86AudioLowerVolume" = { spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; allow-when-locked = true; };
+            "XF86AudioMute"        = { spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; allow-when-locked = true; };
+            "XF86AudioMicMute"     = { spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; allow-when-locked = true; };
+
+            "XF86MonBrightnessUp"   = { spawn-sh = "brightnessctl set 5%+"; allow-when-locked = true; };
+            "XF86MonBrightnessDown" = { spawn-sh = "brightnessctl set 5%-"; allow-when-locked = true; };
           };
         };
       };
