@@ -2,8 +2,8 @@
   flake.homeModules.git = { ... }: {
     programs.git = {
       enable = true;
-      userName = "gooblin";
-      userEmail = "gooblin@nixos.local";
+      settings.user.name = "gooblin";
+      settings.user.email = "gooblin@nixos.local";
     };
   };
 }
