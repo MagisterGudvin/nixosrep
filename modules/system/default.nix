@@ -5,7 +5,6 @@
       self.nixosModules.boot
       self.nixosModules.cpu
       self.nixosModules.filesystems
-      self.nixosModules.greeter
       self.nixosModules.locale
       self.nixosModules.network
       self.nixosModules.nix
