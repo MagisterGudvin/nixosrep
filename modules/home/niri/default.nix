@@ -19,7 +19,7 @@
         '';
       };
     in {
-      imports = [ inputs.niri.homeModules.config-niri ];
+      imports = [ inputs.niri.homeModules.config ];
 
       home.packages = with pkgs; [
         niri-screenshot
