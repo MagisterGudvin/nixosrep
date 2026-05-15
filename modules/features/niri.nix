@@ -16,7 +16,7 @@
 
         xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
-        input.keyboard.xkb.layout = "us,ua";
+        input.keyboard.xkb.layout = "us,ru";
 
         layout.gaps = 5;
 
