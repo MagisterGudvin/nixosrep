@@ -19,6 +19,13 @@
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       ];
       max-jobs = "auto";
+
+      # Если substituter не отвечает (упал, недоступен по сети) — не
+      # валить весь rebuild, а собрать из исходников.
+      fallback = true;
+
+      # Дохлые зеркала отрезаются быстро, не ждём 5-минутный таймаут.
+      connect-timeout = 5;
     };
 
     nix.gc = {
