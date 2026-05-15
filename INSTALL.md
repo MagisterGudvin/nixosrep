@@ -1,7 +1,7 @@
 # Установка и сопровождение конфигурации
 
 Репозиторий: `github.com/magistergudvin/nixosrep`
-Хост: `Forza` (имя хоста = имя flake-output-а `nixosConfigurations.Forza`)
+Хост: `forza` (имя хоста = имя flake-output-а `nixosConfigurations.forza`)
 Пользователь: `gooblin`
 
 ---
@@ -30,24 +30,24 @@ cd /mnt/etc/nixos
 
 `nixos-generate-config` смотрит на железо примонтированной системы и пишет `hardware-configuration.nix` с найденными `boot.initrd.availableKernelModules`, `boot.kernelModules`, `hostPlatform` и т.п.
 
-В репе всё это уже задано вручную (`modules/hosts/Forza/hardware.nix`, `modules/system/cpu.nix`, `modules/system/nix.nix`). Но генератор может найти модули, которых нет в твоём списке (например, для нестандартного NVMe-контроллера или ридера SD). Прогоняем с флагом `--no-filesystems`, чтобы не плодить дубли с `filesystems.nix`:
+В репе всё это уже задано вручную (`modules/hosts/forza/hardware.nix`, `modules/system/cpu.nix`, `modules/system/nix.nix`). Но генератор может найти модули, которых нет в твоём списке (например, для нестандартного NVMe-контроллера или ридера SD). Прогоняем с флагом `--no-filesystems`, чтобы не плодить дубли с `filesystems.nix`:
 
 ```bash
 sudo nixos-generate-config --no-filesystems --root /mnt --dir /tmp/genconf
 cat /tmp/genconf/hardware-configuration.nix
 ```
 
-Сравни выведенный `boot.initrd.availableKernelModules` со списком в `modules/hosts/Forza/hardware.nix`. Если в сгенерированном есть что-то отсутствующее (типичные кандидаты: `ahci`, `nvme`, `xhci_pci`, `usbhid`, `usb_storage`, `sd_mod`, `sdhci_pci`, `rtsx_pci_sdmmc` для ридеров карт) — допиши недостающее в `hardware.nix` и закоммить позже.
+Сравни выведенный `boot.initrd.availableKernelModules` со списком в `modules/hosts/forza/hardware.nix`. Если в сгенерированном есть что-то отсутствующее (типичные кандидаты: `ahci`, `nvme`, `xhci_pci`, `usbhid`, `usb_storage`, `sd_mod`, `sdhci_pci`, `rtsx_pci_sdmmc` для ридеров карт) — допиши недостающее в `hardware.nix` и закоммить позже.
 
 > Зачем `--no-filesystems`: иначе генератор положит автодетектные `fileSystems."/"`, `fileSystems."/boot"`, `swapDevices` — и они конфликтнут с уже описанными в `modules/system/filesystems.nix`. С флагом он эти секции пропускает.
 
 ### 1.4. Накати систему
 
 ```bash
-sudo nixos-install --flake /mnt/etc/nixos#Forza --no-root-password
+sudo nixos-install --flake /mnt/etc/nixos#forza --no-root-password
 ```
 
-`#Forza` — это имя из `flake.nixosConfigurations.Forza` (см. `modules/hosts/Forza/default.nix`). Если переименуешь хост — флаг меняется соответственно.
+`#forza` — это имя из `flake.nixosConfigurations.forza` (см. `modules/hosts/forza/default.nix`). Если переименуешь хост — флаг меняется соответственно.
 
 ### 1.5. Поставь пароль пользователю `gooblin`
 
@@ -74,7 +74,7 @@ sudo reboot
 ### 2.1. Применить изменения
 
 ```bash
-sudo nixos-rebuild switch --flake .#Forza
+sudo nixos-rebuild switch --flake .#forza
 ```
 
 Варианты вместо `switch`:
@@ -92,7 +92,7 @@ nix flake update
 nix flake update nixpkgs
 
 # После — применить
-sudo nixos-rebuild switch --flake .#Forza
+sudo nixos-rebuild switch --flake .#forza
 ```
 
 ### 2.3. Откатиться, если что-то сломалось
@@ -126,7 +126,7 @@ home.packages = with pkgs; [
 
 После правки:
 ```bash
-sudo nixos-rebuild switch --flake .#Forza
+sudo nixos-rebuild switch --flake .#forza
 ```
 
 ### 3.2. Системные сервисы и пакеты (NixOS)
@@ -214,13 +214,13 @@ git push -u origin main
 Push сам по себе ничего не меняет в работающей системе — нужно ещё раз пересобрать:
 
 ```bash
-sudo nixos-rebuild switch --flake .#Forza
+sudo nixos-rebuild switch --flake .#forza
 ```
 
-> Если правишь конфиг с другой машины и хочешь подтянуть на Forza:
+> Если правишь конфиг с другой машины и хочешь подтянуть на forza:
 > ```bash
 > git pull
-> sudo nixos-rebuild switch --flake .#Forza
+> sudo nixos-rebuild switch --flake .#forza
 > ```
 
 ---
@@ -234,7 +234,7 @@ sudo nixos-rebuild switch --flake .#Forza
 
 ### Сборка только проверить (без активации)
 ```bash
-nixos-rebuild build --flake .#Forza
+nixos-rebuild build --flake .#forza
 ```
 
 ### Очистка старых поколений
@@ -247,7 +247,7 @@ sudo nix-collect-garbage --delete-older-than 14d
 ```bash
 journalctl -xeu nixos-rebuild
 journalctl -b -p err                   # ошибки текущей загрузки
-sudo nixos-rebuild switch --flake .#Forza --show-trace
+sudo nixos-rebuild switch --flake .#forza --show-trace
 ```
 
 ### Hibernate

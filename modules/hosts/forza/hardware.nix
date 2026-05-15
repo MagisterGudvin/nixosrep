@@ -1,5 +1,5 @@
 { ... }: {
-  flake.nixosModules.ForzaHardware = { ... }: {
+  flake.nixosModules.forzaHardware = { ... }: {
     # NVMe + USB/SD для root-mount из initrd.
     boot.initrd.availableKernelModules = [
       "nvme"
