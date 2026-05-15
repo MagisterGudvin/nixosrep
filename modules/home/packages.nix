@@ -38,9 +38,9 @@
       # --- 3D / графика ---
       blockbench                 # low-poly 3D model editor (Minecraft и др.)
 
-      # --- Wayland-десктоп: терминал, лаунчер ---
-      kitty                      # терминал по умолчанию (Mod+Return/Mod+E)
-                                 # rofi приходит через programs.rofi.enable (modules/home/rofi)
+      # --- Wayland-десктоп: лаунчер ---
+                                 # kitty приходит через programs.kitty (modules/home/kitty)
+                                 # rofi приходит через programs.rofi  (modules/home/rofi)
 
       # --- Скриншоты ---
       grim

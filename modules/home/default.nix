@@ -16,6 +16,7 @@
           self.homeModules.fish
           self.homeModules.git
           self.homeModules.gtk
+          self.homeModules.kitty
           self.homeModules.niri
           self.homeModules.noctalia
           self.homeModules.obsidian
