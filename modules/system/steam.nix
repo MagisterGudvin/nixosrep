@@ -17,6 +17,14 @@
     programs.gamemode.enable = true;
     programs.gamescope.enable = true;
 
+    # udev для Valve-железа: Steam Controller (USB/wireless dongle),
+    # Index/Vive HMD, Steam Deck dock и т.п.
+    hardware.steam-hardware.enable = true;
+
+    # udev для не-Valve геймпадов: Xbox 360/One/Series, DualShock 4,
+    # DualSense, Switch Pro. Без этого USB-подключение требует root.
+    services.udev.packages = [ pkgs.game-devices-udev-rules ];
+
     environment.systemPackages = with pkgs; [
       mangohud
     ];
