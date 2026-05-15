@@ -7,15 +7,27 @@
       useUserPackages = true;
       extraSpecialArgs = { inherit inputs self; };
 
-      users.myUser = { ... }: {
+      users.gooblin = { ... }: {
         imports = [
-          self.homeModules.shell
+          inputs.noctalia.homeModules.default
+
+          self.homeModules.bash
+          self.homeModules.deployFiles
+          self.homeModules.fastfetch
+          self.homeModules.fish
           self.homeModules.git
+          self.homeModules.gtk
+          self.homeModules.noctalia
+          self.homeModules.obsidian
           self.homeModules.packages
+          self.homeModules.rofi
+          self.homeModules.shell
+          self.homeModules.tools
+          self.homeModules.yazi
         ];
 
-        home.username = "myUser";
-        home.homeDirectory = "/home/myUser";
+        home.username = "gooblin";
+        home.homeDirectory = "/home/gooblin";
         home.stateVersion = "25.11";
 
         programs.home-manager.enable = true;

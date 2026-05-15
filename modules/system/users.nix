@@ -1,8 +1,8 @@
 { ... }: {
   flake.nixosModules.users = { pkgs, ... }: {
-    users.users.myUser = {
+    users.users.gooblin = {
       isNormalUser = true;
-      description = "myUser";
+      description = "gooblin";
       extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
       shell = pkgs.bash;
     };

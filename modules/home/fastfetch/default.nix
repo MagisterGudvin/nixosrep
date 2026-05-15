@@ -1,6 +1,6 @@
-{ ... }:
-{
-  home.file.".config/fastfetch/config.jsonc".text = ''
+{ ... }: {
+  flake.homeModules.fastfetch = { ... }: {
+    home.file.".config/fastfetch/config.jsonc".text = ''
     {
       "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
       "logo": {
@@ -27,7 +27,7 @@
         },
         {
           "type": "custom",
-          "format": "\u001b[38;2;47;51;77m│\u001b[0m  \u001b[1;38;2;192;153;255m󱄅  nishansys\u001b[38;2;130;139;184m@\u001b[38;2;134;225;252mnixos\u001b[0m"
+          "format": "\u001b[38;2;47;51;77m│\u001b[0m  \u001b[1;38;2;192;153;255m󱄅  gooblin\u001b[38;2;130;139;184m@\u001b[38;2;134;225;252mnixos\u001b[0m"
         },
         {
           "type": "custom",
@@ -114,4 +114,5 @@
       ]
     }
   '';
+  };
 }

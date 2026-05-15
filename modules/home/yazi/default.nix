@@ -1,24 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-let
-  cfg = config.userSettings.yazi;
-in
-{
-  options = {
-    userSettings.yazi = {
-      enable = lib.mkEnableOption "Enable yazi TUI file manager";
-    };
-  };
-
-  config = lib.mkIf cfg.enable {
+{ ... }: {
+  flake.homeModules.yazi = { pkgs, ... }: {
     programs.yazi = {
       enable = true;
-      # enableZshIntegration = true;
       theme.icon = {
         dirs = [
           {

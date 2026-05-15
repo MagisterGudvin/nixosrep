@@ -17,6 +17,7 @@
       self.nixosModules.services
       self.nixosModules.systemd
       self.nixosModules.users
+      self.nixosModules.xdgPortal
     ];
   };
 }

@@ -1,11 +1,9 @@
+{ ... }: {
+  flake.homeModules.noctalia = { ... }: {
+    programs.noctalia-shell = {
+      enable = true;
 
-{ pkgs, ... }:
-# Desktop shell
-{
-  programs.noctalia-shell = {
-    enable = true;
-
-    settings = {
+      settings = {
 
       general = {
         avatarImage = "~/.face";
@@ -653,5 +651,6 @@
         ];
       };
     };
+  };
   };
 }
