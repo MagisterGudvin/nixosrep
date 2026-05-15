@@ -46,8 +46,7 @@
 
       # --- Wayland-десктоп: терминал, лаунчер ---
       foot                       # терминал по умолчанию (Mod+Return/Mod+E)
-      rofi                       # dmenu-замена для Mod+V clipboard-pick
-                                 # (с 25.11+ rofi-wayland смержен в rofi)
+                                 # rofi приходит через programs.rofi.enable (modules/home/rofi)
 
       # --- Скриншоты ---
       grim
