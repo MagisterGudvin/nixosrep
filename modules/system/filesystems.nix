@@ -1,5 +1,5 @@
 { ... }: {
-  flake.nixosModules.Filesystems = { ... }: {
+  flake.nixosModules.filesystems = { ... }: {
     boot.supportedFilesystems = [ "btrfs" ];
 
     # Root pool: btrfs across both NVMe (native RAID0 for data, RAID1 for metadata).
