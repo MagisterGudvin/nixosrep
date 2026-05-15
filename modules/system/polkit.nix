@@ -1,5 +1,5 @@
 { ... }: {
-  flake.nixosModules.polkit = { ... }: {
+  flake.nixosModules.polkit = { pkgs, ... }: {
     security.polkit.enable = true;
 
     environment.systemPackages = [ pkgs.hyprpolkitagent ];
@@ -15,5 +15,7 @@
       serviceConfig = {
         ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
         Restart = "on-failure";
+      };
+    };
   };
 }

@@ -1,13 +1,16 @@
 { ... }: {
   flake.nixosModules.radeon = { pkgs, ... }: {
-    services.xserver.videoDrivers = [ "modesetting" ];
+    # amdgpu в initrd — ранний KMS, плавный переход bootloader → console.
+    boot.initrd.kernelModules = [ "amdgpu" ];
 
     hardware.graphics = {
       enable = true;
       enable32Bit = true;
+      # RADV (Vulkan) и radeonsi (OpenGL) идут в составе mesa.
       extraPackages = with pkgs; [
         mesa
-        libva-vdpau-driver
+        libva
+        libva-utils
         libvdpau-va-gl
       ];
       extraPackages32 = with pkgs; [
