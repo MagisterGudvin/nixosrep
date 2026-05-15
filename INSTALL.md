@@ -26,7 +26,22 @@ cd /mnt/etc/nixos
 
 > Можно класть куда угодно (например `/mnt/home/gooblin/nixosrep`) — путь к flake-у явный, `/etc/nixos` это просто привычка.
 
-### 1.3. Накати систему
+### 1.3. Сверь hardware-конфиг с автодетектом
+
+`nixos-generate-config` смотрит на железо примонтированной системы и пишет `hardware-configuration.nix` с найденными `boot.initrd.availableKernelModules`, `boot.kernelModules`, `hostPlatform` и т.п.
+
+В репе всё это уже задано вручную (`modules/hosts/Forza/hardware.nix`, `modules/system/cpu.nix`, `modules/system/nix.nix`). Но генератор может найти модули, которых нет в твоём списке (например, для нестандартного NVMe-контроллера или ридера SD). Прогоняем с флагом `--no-filesystems`, чтобы не плодить дубли с `filesystems.nix`:
+
+```bash
+sudo nixos-generate-config --no-filesystems --root /mnt --dir /tmp/genconf
+cat /tmp/genconf/hardware-configuration.nix
+```
+
+Сравни выведенный `boot.initrd.availableKernelModules` со списком в `modules/hosts/Forza/hardware.nix`. Если в сгенерированном есть что-то отсутствующее (типичные кандидаты: `ahci`, `nvme`, `xhci_pci`, `usbhid`, `usb_storage`, `sd_mod`, `sdhci_pci`, `rtsx_pci_sdmmc` для ридеров карт) — допиши недостающее в `hardware.nix` и закоммить позже.
+
+> Зачем `--no-filesystems`: иначе генератор положит автодетектные `fileSystems."/"`, `fileSystems."/boot"`, `swapDevices` — и они конфликтнут с уже описанными в `modules/system/filesystems.nix`. С флагом он эти секции пропускает.
+
+### 1.4. Накати систему
 
 ```bash
 sudo nixos-install --flake /mnt/etc/nixos#Forza --no-root-password
@@ -34,7 +49,7 @@ sudo nixos-install --flake /mnt/etc/nixos#Forza --no-root-password
 
 `#Forza` — это имя из `flake.nixosConfigurations.Forza` (см. `modules/hosts/Forza/default.nix`). Если переименуешь хост — флаг меняется соответственно.
 
-### 1.4. Поставь пароль пользователю `gooblin`
+### 1.5. Поставь пароль пользователю `gooblin`
 
 В конце установщик предложит установить root-пароль (мы передали `--no-root-password`, чтобы пропустить — wheel-юзер с `sudo` достаточно). Для пользователя:
 
@@ -42,7 +57,7 @@ sudo nixos-install --flake /mnt/etc/nixos#Forza --no-root-password
 sudo nixos-enter --root /mnt -c 'passwd gooblin'
 ```
 
-### 1.5. Перезагрузка
+### 1.6. Перезагрузка
 
 ```bash
 sudo reboot
