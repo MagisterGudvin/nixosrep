@@ -21,6 +21,7 @@
     hyprpolkitagent
     visidata
     jdk21
+    glib                       # gsettings CLI для проверки/правки темы из терминала
 
     # Иконки/курсоры — ставим на уровне системы, чтобы они оказались
     # в /run/current-system/sw/share, который GTK/Qt всегда видят
