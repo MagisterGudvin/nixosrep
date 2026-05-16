@@ -521,7 +521,7 @@
         schedulingMode = "off";
         manualSunrise = "08:00";
         manualSunset = "19:30";
-        generationMethod = "m3-monochrome";
+        generationMethod = "monochrome";
         monitorForColors = "";
         syncGsettings = true;
       };
