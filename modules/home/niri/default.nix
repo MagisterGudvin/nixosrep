@@ -20,10 +20,11 @@
         '';
       };
 
-      # Циклически переключает частоту обновления eDP-1 между 60 и 165 Гц.
+      # Циклически переключает частоту обновления eDP-1 между 60 и 120 Гц.
       # niri 25.x поддерживает `niri msg output eDP-1 mode <WxH@hz>`, что
-      # применяет режим без рестарта сессии. Если 165 у твоей панели нет —
-      # поменяй на 120 или ту цифру, что показывает `niri msg outputs`.
+      # применяет режим без рестарта сессии. Текущая частота определяется
+      # парсингом `niri msg outputs` — если current < 90, идём в 120, иначе
+      # в 60.
       niri-refresh-toggle = pkgs.writeShellApplication {
         name = "niri-refresh-toggle";
         runtimeInputs = with pkgs; [ niri libnotify gnugrep gawk ];
@@ -33,8 +34,8 @@
             $0 ~ "Output \"" o "\"" { found=1; next }
             found && /current/ { print; exit }
           ' | grep -oE '@ [0-9.]+ Hz' | grep -oE '[0-9.]+')"
-          if [ -z "$CUR" ] || awk "BEGIN{exit !($CUR < 100)}"; then
-            NEW=165
+          if [ -z "$CUR" ] || awk "BEGIN{exit !($CUR < 90)}"; then
+            NEW=120
           else
             NEW=60
           fi
@@ -125,13 +126,12 @@
 
         outputs."eDP-1" = {
           scale = 1.2;
-          # Стартовый режим экрана. Реальные поддерживаемые режимы
-          # покажет `niri msg outputs`. Если 165 Hz у панели нет —
-          # niri молча возьмёт ближайший поддерживаемый.
+          # Панель ноутбука — 2560x1600 @ 120 Hz. Проверить реальные
+          # поддерживаемые режимы можно через `niri msg outputs`.
           mode = {
             width = 2560;
             height = 1600;
-            refresh = 165.0;
+            refresh = 120.0;
           };
           variable-refresh-rate = true;
         };
