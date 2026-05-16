@@ -237,7 +237,7 @@
       };
 
       location = {
-        name = "Kathmandu, Nepal";
+        name = "Krasnodar, Russia";
         weatherEnabled = true;
         weatherShowEffects = true;
         weatherTaliaMascotAlways = false;
