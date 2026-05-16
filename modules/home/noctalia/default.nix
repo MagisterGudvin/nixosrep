@@ -551,11 +551,11 @@
       };
 
       nightLight = {
-        enabled = true;
+        enabled = false;
         forced = false;
         autoSchedule = false;
-        nightTemp = "3500";   # ночь теплее (меньше синего, легче глазам)
-        dayTemp = "6500";     # день — обычный дневной свет
+        nightTemp = "3500";
+        dayTemp = "6500";
         manualSunrise = "08:00";
         manualSunset = "19:30";
       };
