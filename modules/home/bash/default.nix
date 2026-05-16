@@ -4,18 +4,33 @@
       enable = true;
       settings = {
         # Показываем user@host всегда (по умолчанию starship прячет
-        # их в локальной сессии).
-        format = "$username[@](bold white)$hostname $directory$git_branch$git_status$character";
+        # их в локальной сессии). Под ч/б обои — вся подсказка идёт
+        # оттенками серого (ANSI 240..255), без цветовых акцентов.
+        format = "$username[@](bold 250)$hostname $directory$git_branch$git_status$character";
         username = {
           show_always = true;
           format = "[$user]($style)";
-          style_user = "bold green";
-          style_root = "bold red";
+          style_user = "bold 252";
+          style_root = "bold 255";       # root немного ярче
         };
         hostname = {
           ssh_only = false;
           format = "[$hostname]($style)";
-          style = "bold blue";
+          style = "bold 248";
+        };
+        directory = {
+          style = "bold 254";
+        };
+        git_branch = {
+          style = "246";
+          format = "[ $symbol$branch]($style)";
+        };
+        git_status = {
+          style = "240";
+        };
+        character = {
+          success_symbol = "[❯](250)";
+          error_symbol = "[❯](240)";
         };
       };
     };

@@ -137,14 +137,14 @@
             width = 1;
             active.gradient = {
               angle = 210;
-              from = "#80c8ff";
-              to = "#223366";
+              from = "#e0e0e0";
+              to = "#404040";
               relative-to = "workspace-view";
             };
             inactive.gradient = {
               angle = 45;
-              from = "#505050";
-              to = "#808080";
+              from = "#303030";
+              to = "#606060";
               relative-to = "workspace-view";
             };
           };

@@ -511,17 +511,17 @@
       };
 
       colorSchemes = {
-        # Тема — ручной выбор через noctalia-настройки (открыть:
-        # ЛКМ по ControlCenter в баре → Settings → Color schemes).
-        # useWallpaperColors=false фиксирует predefinedScheme и не
-        # перебивает её цветами с обоев.
-        useWallpaperColors = false;
+        # Под чёрно-белые обои — пусть noctalia сама вытаскивает из них
+        # доминирующую серую гамму. С generationMethod=neutral
+        # получаешь почти ахроматическую палитру; tonal-spot/content
+        # дают больше оттенков.
+        useWallpaperColors = true;
         predefinedScheme = "Tokyo Night";
         darkMode = true;
         schedulingMode = "off";
         manualSunrise = "08:00";
         manualSunset = "19:30";
-        generationMethod = "tonal-spot";
+        generationMethod = "neutral";
         monitorForColors = "";
         syncGsettings = true;
       };
