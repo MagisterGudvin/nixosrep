@@ -418,6 +418,10 @@
           "Mod+Shift+P".action.spawn = [ "playerctl" "stop" ];
           "Mod+comma".action.spawn = [ "playerctl" "previous" ];
           "Mod+period".action.spawn = [ "playerctl" "next" ];
+          # Seek по 10 секунд через playerctl — нужен пока noctalia
+          # seek-bar не работает с cassette MPRIS.
+          "Mod+bracketright".action.spawn = [ "playerctl" "position" "10+" ];
+          "Mod+bracketleft".action.spawn = [ "playerctl" "position" "10-" ];
 
           # Volume (работают и на lock-screen)
           "XF86AudioRaiseVolume" = {
