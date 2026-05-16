@@ -22,6 +22,7 @@
     visidata
     jdk21
     glib                       # gsettings CLI для проверки/правки темы из терминала
+    gsettings-desktop-schemas  # описания опций org.gnome.desktop.* — без них gsettings ругается "Схемы не установлены"
 
     # Иконки/курсоры — ставим на уровне системы, чтобы они оказались
     # в /run/current-system/sw/share, который GTK/Qt всегда видят
