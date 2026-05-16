@@ -21,46 +21,42 @@
         # сам.
         hide_window_decorations = "yes";
 
-        # Прозрачный чёрный фон. Сильнее прозрачность чем было — чтобы
-        # обои за окном просвечивали и давали ч/б тон.
+        # Прозрачный чёрный фон. opacity 0.85 — обои читаются под окном,
+        # но текст не вязнет в просвечивающей картинке.
         background = "#000000";
-        background_opacity = "0.70";
+        background_opacity = "0.85";
         dynamic_background_opacity = "yes";
-        # background_blur — kitty просит у компитора blur-протокол.
-        # niri поддерживает (через ext-blur/layer-shell-effects), так
-        # что если работает — фон станет матовым; если нет — просто
-        # будет прозрачный без блюра, без ошибок.
         background_blur = "32";
 
-        # Монохромная палитра. Фон — чистый чёрный, текст — тёплый
-        # светло-серый. ANSI-цвета все приведены к серым ступенькам
+        # Монохромная палитра. Фон — чистый чёрный, текст — почти
+        # белый. ANSI-цвета все приведены к серым ступенькам
         # (без красного/зелёного/синего), чтобы любой вывод оставался
         # в ч/б эстетике обоев.
-        foreground = "#d0d0d0";
-        cursor = "#e6e6e6";
+        foreground = "#f0f0f0";
+        cursor = "#ffffff";
         cursor_text_color = "#000000";
 
-        selection_background = "#404040";
+        selection_background = "#505050";
         selection_foreground = "#ffffff";
 
-        # Normal colors
+        # Normal colors — все cерые, никаких цветовых акцентов
         color0 = "#1a1a1a";   # black
-        color1 = "#707070";   # red    → mid gray
-        color2 = "#888888";   # green  → mid gray
-        color3 = "#a0a0a0";   # yellow → light gray
-        color4 = "#707070";   # blue
-        color5 = "#888888";   # magenta
-        color6 = "#a0a0a0";   # cyan
-        color7 = "#c0c0c0";   # white
+        color1 = "#9a9a9a";   # red    → mid-bright gray
+        color2 = "#b0b0b0";   # green  → light gray (был зелёным fish-команд)
+        color3 = "#c8c8c8";   # yellow → bright gray
+        color4 = "#9a9a9a";   # blue
+        color5 = "#b0b0b0";   # magenta
+        color6 = "#c8c8c8";   # cyan
+        color7 = "#e0e0e0";   # white
 
-        # Bright colors (используются для bold/highlight)
-        color8 = "#404040";
-        color9 = "#909090";
-        color10 = "#a8a8a8";
-        color11 = "#c0c0c0";
-        color12 = "#909090";
-        color13 = "#a8a8a8";
-        color14 = "#c0c0c0";
+        # Bright colors (bold/highlight) — ярче и без оттенков
+        color8 = "#505050";
+        color9 = "#b8b8b8";
+        color10 = "#cccccc";
+        color11 = "#e0e0e0";
+        color12 = "#b8b8b8";
+        color13 = "#cccccc";
+        color14 = "#e0e0e0";
         color15 = "#ffffff";
 
         # URL underline тоже серый, не синий.

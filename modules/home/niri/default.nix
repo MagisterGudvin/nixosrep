@@ -235,7 +235,7 @@
           # --- Прозрачность + закругления для конкретных приложений ---
           {
             matches = [ { app-id = "^kitty$"; } ];
-            opacity = 0.70;
+            opacity = 0.85;
             draw-border-with-background = false;
             geometry-corner-radius = {
               top-left = 10.0; top-right = 10.0;
