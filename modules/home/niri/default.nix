@@ -47,7 +47,12 @@
 
         input = {
           keyboard = {
-            xkb.layout = "us,ru";
+            xkb = {
+              layout = "us,ru";
+              # Alt+Shift переключает раскладку. Без options кнопка
+              # просто не назначена, и us/ru висят молча.
+              options = "grp:alt_shift_toggle";
+            };
             repeat-delay = 250;
             repeat-rate = 35;
           };
