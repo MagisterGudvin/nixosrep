@@ -333,6 +333,7 @@
           "Mod+E".action.spawn = [ "kitty" ];
           "Mod+B".action.spawn = [ "brave" ];
           "Mod+Q".action.spawn = [ "thunar" ];
+          "Mod+M".action.spawn = [ "cassette" ];
 
           "Mod+Escape".action.spawn = [ noctalia "ipc" "call" "sessionMenu" "toggle" ];
           "Mod+Space".action.spawn = [ noctalia "ipc" "call" "launcher" "toggle" ];
