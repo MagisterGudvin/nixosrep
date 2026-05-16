@@ -19,6 +19,29 @@
           [ -n "$shot" ] && swappy -f "$shot"
         '';
       };
+
+      # Циклически переключает частоту обновления eDP-1 между 60 и 165 Гц.
+      # niri 25.x поддерживает `niri msg output eDP-1 mode <WxH@hz>`, что
+      # применяет режим без рестарта сессии. Если 165 у твоей панели нет —
+      # поменяй на 120 или ту цифру, что показывает `niri msg outputs`.
+      niri-refresh-toggle = pkgs.writeShellApplication {
+        name = "niri-refresh-toggle";
+        runtimeInputs = with pkgs; [ niri libnotify gnugrep gawk ];
+        text = ''
+          OUT="eDP-1"
+          CUR="$(niri msg outputs | awk -v o="$OUT" '
+            $0 ~ "Output \"" o "\"" { found=1; next }
+            found && /current/ { print; exit }
+          ' | grep -oE '@ [0-9.]+ Hz' | grep -oE '[0-9.]+')"
+          if [ -z "$CUR" ] || awk "BEGIN{exit !($CUR < 100)}"; then
+            NEW=165
+          else
+            NEW=60
+          fi
+          niri msg output "$OUT" mode "2560x1600@''${NEW}"
+          notify-send "Refresh rate" "$OUT → ''${NEW} Hz" -t 1500
+        '';
+      };
     in {
       # niri-flake's nixosModule (см. modules/features/niri.nix) уже
       # подкидывает homeModules.config во все home-manager-users через
@@ -27,6 +50,7 @@
 
       home.packages = with pkgs; [
         niri-screenshot
+        niri-refresh-toggle
         xwayland-satellite
         wl-clipboard
         cliphist
@@ -99,7 +123,18 @@
 
         gestures.hot-corners.enable = false;
 
-        outputs."eDP-1".scale = 1.2;
+        outputs."eDP-1" = {
+          scale = 1.2;
+          # Стартовый режим экрана. Реальные поддерживаемые режимы
+          # покажет `niri msg outputs`. Если 165 Hz у панели нет —
+          # niri молча возьмёт ближайший поддерживаемый.
+          mode = {
+            width = 2560;
+            height = 1600;
+            refresh = 165.0;
+          };
+          variable-refresh-rate = true;
+        };
 
         overview = {
           workspace-shadow.enable = false;
@@ -326,6 +361,11 @@
           # --- Screenshots ---
           "Mod+S".action.spawn = [ "niri-screenshot" ];
           "Mod+Shift+S".action.spawn = [ "niri-screenshot" "screen" ];
+
+          # --- Display ---
+          # Циклит частоту экрана 60 ↔ 165 Hz. Заметишь по toast от
+          # noctalia. Меняется без рестарта niri.
+          "Mod+F12".action.spawn = [ "niri-refresh-toggle" ];
 
           # --- Window Management ---
           "Mod+C".action.close-window = { };

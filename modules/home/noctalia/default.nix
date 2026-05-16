@@ -515,7 +515,11 @@
       };
 
       colorSchemes = {
-        useWallpaperColors = true;
+        # Тема — ручной выбор через noctalia-настройки (открыть:
+        # ЛКМ по ControlCenter в баре → Settings → Color schemes).
+        # useWallpaperColors=false фиксирует predefinedScheme и не
+        # перебивает её цветами с обоев.
+        useWallpaperColors = false;
         predefinedScheme = "Tokyo Night";
         darkMode = true;
         schedulingMode = "off";
@@ -545,7 +549,9 @@
             id = "niri";
           }
         ];
-        enableUserTheming = false;
+        # Позволяем менять отдельные элементы UI вручную через
+        # noctalia → Settings → Templates (свои кастомные шаблоны).
+        enableUserTheming = true;
       };
 
       nightLight = {
