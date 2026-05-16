@@ -335,7 +335,7 @@
         customLaunchPrefix = "";
         viewMode = "list";
         showCategories = true;
-        iconMode = "tabler";
+        iconMode = "system";       # системная тема (Papirus-Dark из gtk.iconTheme) вместо встроенных Tabler-иконок
         showIconBackground = false;
         enableSettingsSearch = true;
         enableWindowsSearch = true;
