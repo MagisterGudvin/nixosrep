@@ -33,6 +33,13 @@
     hicolor-icon-theme
     kdePackages.breeze-icons
     volantes-cursors
+
+    # Qt platform-bridge для GNOME-настроек: даёт Qt-приложениям
+    # (в том числе Quickshell/noctalia) читать org.gnome.desktop.interface
+    # из gsettings. Без него Qt берёт дефолтный hicolor icon theme и
+    # ничего не находит — поэтому в лаунчере noctalia стояли «лысые»
+    # placeholder-иконки вместо Papirus.
+    qgnomeplatform-qt6
     ];
   };
 }

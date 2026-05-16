@@ -20,6 +20,11 @@
         "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
         "${pkgs.glib}/share/gsettings-schemas/${pkgs.glib.name}"
       ];
+
+      # Заставить Qt-приложения (Quickshell/noctalia в первую очередь)
+      # читать тему/иконки/шрифты из gsettings. Без этого QIcon::fromTheme
+      # возвращает hicolor-fallback, и Papirus в лаунчере noctalia не виден.
+      QT_QPA_PLATFORMTHEME = "gnome";
     };
   };
 }
