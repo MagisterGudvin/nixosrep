@@ -5,7 +5,7 @@
 
       niri-screenshot = pkgs.writeShellApplication {
         name = "niri-screenshot";
-        runtimeInputs = with pkgs; [ niri swappy coreutils ];
+        runtimeInputs = with pkgs; [ niri swappy coreutils findutils ];
         text = ''
           SCREENSHOT_DIR="$HOME/Pictures/Screenshots"
           mkdir -p "$SCREENSHOT_DIR"
@@ -14,7 +14,8 @@
             *)      niri msg action screenshot ;;
           esac
           sleep 1
-          shot="$(ls -t "$SCREENSHOT_DIR"/*.png 2>/dev/null | head -1)"
+          shot="$(find "$SCREENSHOT_DIR" -maxdepth 1 -name '*.png' -printf '%T@ %p\n' \
+                  | sort -rn | head -1 | cut -d' ' -f2-)"
           [ -n "$shot" ] && swappy -f "$shot"
         '';
       };
