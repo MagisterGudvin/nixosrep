@@ -3,6 +3,10 @@
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.timeout = 3;
+    # Держать в boot-меню максимум 5 последних поколений. Остальные
+    # пункты systemd-boot удаляет при каждом switch/boot, даже если
+    # сами generation profiles ещё живы в /nix/var/nix/profiles.
+    boot.loader.systemd-boot.configurationLimit = 5;
 
     # Свежее ядро для нормальной поддержки Radeon 780M (RDNA3, gfx1103)
     # и amd_pstate на Hawk Point (Ryzen 8000-серия).
