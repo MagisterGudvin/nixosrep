@@ -4,8 +4,9 @@
       enable = true;
 
       # Tokyo Night Moon — та же палитра, что у rofi
-      # (см. modules/home/rofi/tokyonight-moon.rasi).
-      themeFile = "Tokyo_Night_Moon";
+      # (см. modules/home/rofi/tokyonight-moon.rasi). Имя файла в
+      # пакете kitty-themes — lowercase с подчёркиваниями.
+      themeFile = "tokyo_night_moon";
 
       font = {
         name = "JetBrainsMono Nerd Font";
