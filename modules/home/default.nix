@@ -7,6 +7,12 @@
       useUserPackages = true;
       extraSpecialArgs = { inherit inputs self; };
 
+      # При активации HM не должен падать, если в /home/<user>/.config
+      # уже лежит файл, который он собирается записать (typical после
+      # ручных правок или неудачной прошлой activation). Старая версия
+      # сохраняется как foo.bak, а HM пишет свою.
+      backupFileExtension = "bak";
+
       users.gooblin = { ... }: {
         imports = [
           inputs.noctalia.homeModules.default
