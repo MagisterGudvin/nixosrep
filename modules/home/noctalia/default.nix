@@ -335,7 +335,7 @@
         customLaunchPrefix = "";
         viewMode = "list";
         showCategories = true;
-        iconMode = "system";       # системная тема (Papirus-Dark из gtk.iconTheme) вместо встроенных Tabler-иконок
+        iconMode = "native";       # noctalia принимает только "tabler" или "native"; native = иконки из системной gtk.iconTheme (Papirus-Dark)
         showIconBackground = false;
         enableSettingsSearch = true;
         enableWindowsSearch = true;
