@@ -92,7 +92,7 @@
             {
               id = "Clock";
               customFont = "";
-              formatHorizontal = "MMM dd, ddd,   hh:mm:ss A";
+              formatHorizontal = "MMM dd, ddd,   HH:mm:ss";
               formatVertical = "MMM dd ddd hh:mm:ss A";
               tooltipFormat = "dddd yyyy-MM-dd hh:mm:ss";
               useCustomFont = false;
