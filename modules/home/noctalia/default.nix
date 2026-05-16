@@ -88,6 +88,11 @@
             {
               id = "ControlCenter";
               useDistroLogo = true;
+              # Тонируем nix-snowflake в цвет текста (onSurface из
+              # текущей палитры). Без этого иконка приходит в нативных
+              # синих оттенках SVG и резко выделяется на серой панели.
+              enableColorization = true;
+              colorizeSystemIcon = "onSurface";
             }
             {
               id = "Clock";
