@@ -3,9 +3,15 @@
     let
       noctalia = "${inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/noctalia-shell";
 
+      # niri-CLI должен быть строго той же сборки, что и запущенный
+      # компитор niri (через niri-flake-stable). Если положить
+      # pkgs.niri из nixpkgs — версии в IPC разъезжаются, и команды
+      # типа `niri msg outputs` падают с missing field.
+      niri-stable = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-stable;
+
       niri-screenshot = pkgs.writeShellApplication {
         name = "niri-screenshot";
-        runtimeInputs = with pkgs; [ niri swappy coreutils findutils ];
+        runtimeInputs = [ niri-stable ] ++ (with pkgs; [ swappy coreutils findutils ]);
         text = ''
           SCREENSHOT_DIR="$HOME/Pictures/Screenshots"
           mkdir -p "$SCREENSHOT_DIR"
@@ -27,7 +33,7 @@
       # в 60.
       niri-refresh-toggle = pkgs.writeShellApplication {
         name = "niri-refresh-toggle";
-        runtimeInputs = with pkgs; [ niri libnotify gnugrep gawk ];
+        runtimeInputs = [ niri-stable ] ++ (with pkgs; [ libnotify gnugrep gawk ]);
         text = ''
           OUT="eDP-1"
           CUR="$(niri msg outputs | awk -v o="$OUT" '
