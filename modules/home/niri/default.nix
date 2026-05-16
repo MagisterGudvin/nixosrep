@@ -190,6 +190,9 @@
           { command = [ "xwayland-satellite" ]; }
           { command = [ "sh" "-c" "wl-paste --type text --watch cliphist store" ]; }
           { command = [ "sh" "-c" "wl-paste --type image --watch cliphist store" ]; }
+          # nm-applet даёт значок NetworkManager в Tray noctalia,
+          # с подменю VPN/WireGuard для тоггла соединений.
+          { command = [ "nm-applet" "--indicator" ]; }
         ];
 
         screenshot-path = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
