@@ -57,5 +57,17 @@
       # --- Крипто/CLI ---
       openssl
     ];
+
+    # pkgs.vim кладёт gvim.desktop в системный профиль, но самой
+    # gvim-GUI в этом vim-варианте нет — в лаунчере noctalia запись
+    # видна, но клик молча падает. XDG-приоритет: ~/.local/share/applications/
+    # перебивает /run/current-system/sw/share/applications/. Кладём свой
+    # gvim.desktop с NoDisplay=true — запись исчезает из всех XDG-лаунчеров.
+    xdg.desktopEntries.gvim = {
+      name = "GVim";
+      exec = "true";
+      type = "Application";
+      noDisplay = true;
+    };
   };
 }
