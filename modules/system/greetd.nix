@@ -18,5 +18,12 @@
     systemd.tmpfiles.rules = [
       "d /var/cache/tuigreet 0755 greeter greeter - -"
     ];
+
+    # greetd PAM-стек по умолчанию тянет pam_gnome_keyring.so для
+    # автоматической разблокировки keyring при входе. У нас keyring
+    # не настроен, поэтому модуль пишет в журнал "gkr-pam: unable to
+    # locate daemon control file" на каждой попытке логина. Отключаем —
+    # PAM для greetd просто не пытается это сделать.
+    security.pam.services.greetd.enableGnomeKeyring = false;
   };
 }
