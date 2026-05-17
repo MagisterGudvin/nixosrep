@@ -1,29 +1,6 @@
-{ inputs, ... }: {
-  flake.homeModules.noctalia = { pkgs, lib, ... }:
-    let
-      # ВРЕМЕННЫЙ ПАТЧ: noctalia seek-bar не работает с cassette из-за
-      # бага Quickshell — MprisPlayer.position сеттер шлёт SetPosition(0)
-      # вместо реальной позиции. Подменяем target.position = X на
-      # spawn `playerctl position X` (cassette корректно принимает).
-      #
-      # Чтобы убрать патч и вернуться к ванильному noctalia — поменяй
-      # enableSeekPatch на false. После этого seek-bar опять не будет
-      # работать, но всё остальное останется как было.
-      enableSeekPatch = true;
-
-      patchedNoctalia =
-        inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-          postPatch = (old.postPatch or "") + ''
-            substituteInPlace share/noctalia-shell/Services/Media/MediaService.qml \
-              --replace-fail \
-              "target.position = seekPosition;" \
-              "Quickshell.execDetached([\"sh\", \"-c\", \"playerctl position \" + seekPosition]);"
-          '';
-        });
-    in {
-    programs.noctalia-shell = (lib.optionalAttrs enableSeekPatch {
-      package = patchedNoctalia;
-    }) // {
+{ ... }: {
+  flake.homeModules.noctalia = { ... }: {
+    programs.noctalia-shell = {
       enable = true;
 
       settings = {
