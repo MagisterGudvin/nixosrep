@@ -4,14 +4,13 @@
       enable = true;
       powerOnBoot = true;
       settings.General = {
-        Experimental = true;
+        # Experimental=true заставляет bluez регистрировать BAP
+        # (LE Audio), который требует kernel ISO Socket. У нас он
+        # не экспортирован, и DisablePlugins=bap игнорируется —
+        # warning "BAP requires ISO Socket" / "Failed to set default
+        # system config" сыпался на каждый старт. LE Audio наушников
+        # нет, Experimental ни для чего больше не нужен → выключаем.
         FastConnectable = true;
-        # BAP (Bluetooth LE Audio Basic Audio Profile) требует kernel-
-        # модуль ISO Socket, который в нашей сборке ядра не
-        # экспортирован. Поскольку у нас нет LE Audio наушников,
-        # просто выключаем плагин — пропадёт спам "BAP requires ISO
-        # Socket" / "Failed to set default system config" в логе.
-        DisablePlugins = "bap";
       };
     };
 
