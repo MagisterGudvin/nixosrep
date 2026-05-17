@@ -63,6 +63,11 @@
         ff = "clear && fastfetch";
         fm = "yazi";
         cdlw = "cd /run/media/gooblin/lw";
+
+        # Чистый рестарт noctalia: убиваем quickshell, новую копию
+        # просим запустить niri (не наш fish), чтобы окно kitty
+        # не держало процесс и не цеплялся к нему по stdout.
+        noctalia-restart = "pkill -9 quickshell; and sleep 1; and niri msg action spawn -- noctalia-shell";
       };
 
       plugins = [
