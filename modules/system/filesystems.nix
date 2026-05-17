@@ -27,7 +27,11 @@
     fileSystems."/boot" = {
       device = "/dev/disk/by-label/BOOT";
       fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
+      # fmask/dmask = 0077: /boot читается только root.
+      # Иначе bootctl ругается на /boot/loader/random-seed как
+      # world-accessible (это семечко энтропии раннего boot, оно
+      # не должно быть видно обычным юзерам).
+      options = [ "fmask=0077" "dmask=0077" ];
     };
 
     # Auto mount
