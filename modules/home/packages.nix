@@ -30,6 +30,9 @@
       cassette                   # клиент Яндекс.Музыки (GTK4)
       zathura
 
+      # --- Сеть / загрузки ---
+      qbittorrent
+
       # --- Экран / буфер обмена ---
       wlr-randr
       cliphist
