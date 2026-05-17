@@ -40,7 +40,7 @@
         clockFormat = "hh\\nmm";
         passwordChars = false;
         lockScreenMonitors = [ ];
-        lockScreenBlur = 80;
+        lockScreenBlur = 0;
         lockScreenTint = 0.4;
         reverseScroll = false;
         smoothScrollEnabled = true;
