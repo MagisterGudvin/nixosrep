@@ -1,6 +1,6 @@
 # ❄ nixos-config
 
-A declarative NixOS setup — Niri compositor + Noctalia shell, fully reproducible.
+Декларативная настройка NixOS — Niri compositor + оболочка Noctalia, полностью воспроизводимая.
 
 ![NixOS](https://img.shields.io/badge/NixOS-unstable-5277C3?logo=nixos&logoColor=white)
 ![Niri](https://img.shields.io/badge/Niri-25.08-d0d0d0?logoColor=white)
