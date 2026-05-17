@@ -40,7 +40,10 @@
     # Через сколько времени suspend-then-hibernate перейдёт из RAM-сна
     # в диск. По умолчанию 2 часа — для ноута это многовато, при
     # дороге/в сумке батарея заметно подсаживается.
-    services.logind.settings.Sleep.HibernateDelaySec = "30min";
+    # Это [Sleep]-секция /etc/systemd/sleep.conf, не logind!
+    systemd.sleep.extraConfig = ''
+      HibernateDelaySec=30min
+    '';
 
     powerManagement.enable = true;
   };
