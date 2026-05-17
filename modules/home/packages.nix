@@ -42,6 +42,9 @@
       # --- 3D / графика ---
       blockbench                 # low-poly 3D model editor (Minecraft и др.)
 
+      # --- Игры / Steam-обвязка ---
+      protonplus                 # GUI для управления Proton-GE / Wine-GE / Luxtorpeda через Steam
+
       # --- Wayland-десктоп: лаунчер ---
                                  # kitty приходит через programs.kitty (modules/home/kitty)
                                  # rofi приходит через programs.rofi  (modules/home/rofi)
