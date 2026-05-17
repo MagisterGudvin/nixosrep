@@ -21,6 +21,7 @@
       self.nixosModules.steam
       self.nixosModules.systemd
       self.nixosModules.thunar
+      self.nixosModules.thunderbolt
       self.nixosModules.users
       self.nixosModules.wireguard
       self.nixosModules.xdgPortal
