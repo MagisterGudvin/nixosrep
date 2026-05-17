@@ -278,7 +278,7 @@
       wallpaper = {
         enabled = true;
         overviewEnabled = false;
-        directory = "~/Wallpapers";
+        directory = "~/Pictures/Wallpapers";
         monitorDirectories = [ ];
         enableMultiMonitorDirectories = false;
         showHiddenFiles = false;
