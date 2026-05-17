@@ -7,7 +7,7 @@ A declarative NixOS setup — Niri compositor + Noctalia shell, fully reproducib
 ![Noctalia](https://img.shields.io/badge/Noctalia-shell-808080)
 ![Home Manager](https://img.shields.io/badge/Home%20Manager-master-708090)
 
-![Desktop](previews/desktop.png)
+![Desktop](Pictures/previews/desktop.png)
 
 ---
 
@@ -160,8 +160,9 @@ A declarative NixOS setup — Niri compositor + Noctalia shell, fully reproducib
 │       ├── packages.nix       # GUI/CLI приложения пользователя
 │       ├── rofi/              # лаунчер и тема
 │       └── …
-└── previews/
-    └── desktop.png            # скриншот для шапки README
+└── Pictures/
+    └── previews/
+        └── desktop.png        # скриншот для шапки README
 ```
 
 ## Installation
