@@ -41,9 +41,7 @@
     # в диск. По умолчанию 2 часа — для ноута это многовато, при
     # дороге/в сумке батарея заметно подсаживается.
     # Это [Sleep]-секция /etc/systemd/sleep.conf, не logind!
-    systemd.sleep.extraConfig = ''
-      HibernateDelaySec=30min
-    '';
+    systemd.sleep.settings.Sleep.HibernateDelaySec = "30min";
 
     powerManagement.enable = true;
   };
