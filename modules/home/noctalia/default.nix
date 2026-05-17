@@ -335,7 +335,7 @@
         position = "center";
         pinnedApps = [ ];
         sortByMostUsed = true;
-        terminalCommand = "foot -e";
+        terminalCommand = "kitty -e";       # терминал для TUI-приложений (btop, vim, yazi, htop и т.п.); foot мы давно не ставим
         customLaunchPrefixEnabled = false;
         customLaunchPrefix = "";
         viewMode = "list";
