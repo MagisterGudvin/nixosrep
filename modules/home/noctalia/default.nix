@@ -106,7 +106,10 @@
               id = "Network";
               displayMode = "alwaysShow";
             }
-
+            {
+              id = "Bluetooth";
+              displayMode = "onhover";
+            }
             {
               id = "MediaMini";
               compactMode = false;
