@@ -34,12 +34,12 @@
         },
         {
           "type": "os",
-          "key": "\u001b[38;2;192;192;192m󱄅  OS\u001b[0m",
+          "key": "\u001b[38;2;192;192;192m󰍛  OS\u001b[0m",
           "format": "{2} {4}"
         },
         {
           "type": "kernel",
-          "key": "\u001b[38;2;192;192;192m  Kernel\u001b[0m",
+          "key": "\u001b[38;2;192;192;192m󰌽  Kernel\u001b[0m",
           "format": "{1}"
         },
         {
@@ -52,7 +52,7 @@
         },
         {
           "type": "shell",
-          "key": "\u001b[38;2;192;192;192m  Shell\u001b[0m"
+          "key": "\u001b[38;2;192;192;192m󱆃  Shell\u001b[0m"
         },
         {
           "type": "display",
@@ -60,11 +60,11 @@
         },
         {
           "type": "wm",
-          "key": "\u001b[38;2;192;192;192m󱂬  WM\u001b[0m"
+          "key": "\u001b[38;2;192;192;192m󰖳  WM\u001b[0m"
         },
         {
           "type": "terminal",
-          "key": "\u001b[38;2;192;192;192m  Terminal\u001b[0m"
+          "key": "\u001b[38;2;192;192;192m󰆍  Terminal\u001b[0m"
         },
         {
           "type": "custom",
@@ -72,7 +72,7 @@
         },
         {
           "type": "cpu",
-          "key": "\u001b[38;2;160;160;160m  CPU\u001b[0m",
+          "key": "\u001b[38;2;160;160;160m󰻠  CPU\u001b[0m",
           "showPeCoreCount": true,
           "temp": true,
           "format": "{1} ({3}) @ {7}"
@@ -102,7 +102,7 @@
         },
         {
           "type": "colors",
-          "key": "\u001b[38;2;240;240;240m  Colors\u001b[0m",
+          "key": "\u001b[38;2;240;240;240m󰸌  Colors\u001b[0m",
           "symbol": "circle",
           "paddingLeft": 2
         }
