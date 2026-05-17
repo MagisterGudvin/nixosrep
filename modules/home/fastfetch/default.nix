@@ -19,8 +19,7 @@
       "display": {
         "separator": "  ",
         "key": {
-          "width": 14,
-          "type": "icon"
+          "width": 14
         },
         "color": "38;2;208;208;208"
       },
@@ -76,7 +75,7 @@
           "key": "\u001b[38;2;160;160;160m  CPU\u001b[0m",
           "showPeCoreCount": true,
           "temp": true,
-          "format": "{1} ({3}) @ {7} GHz"
+          "format": "{1} ({3}) @ {7}"
         },
         {
           "type": "gpu",
