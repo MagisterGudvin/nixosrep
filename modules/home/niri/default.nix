@@ -331,7 +331,7 @@
           # --- Apps ---
           "Mod+Return".action.spawn = [ "kitty" ];
           "Mod+E".action.spawn = [ "kitty" ];
-          "Mod+B".action.spawn = [ "brave" ];
+          "Mod+B".action.spawn = [ "yandex-browser-stable" ];
           "Mod+Q".action.spawn = [ "thunar" ];
           "Mod+M".action.spawn = [ "cassette" ];
 

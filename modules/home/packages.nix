@@ -87,5 +87,26 @@
       type = "Application";
       noDisplay = true;
     };
+
+    # Дефолтный браузер для всех http/https/файл-открытий из других
+    # приложений (Telegram-ссылка, кнопка «открыть в браузере» в noctalia
+    # и т.п.). Без mimeApps.enable HM не пишет ~/.config/mimeapps.list,
+    # и XDG берёт первый попавшийся .desktop с MimeType=text/html
+    # (обычно brave из-за алфавитной сортировки).
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "text/html" = "yandex-browser-stable.desktop";
+        "application/xhtml+xml" = "yandex-browser-stable.desktop";
+        "x-scheme-handler/http" = "yandex-browser-stable.desktop";
+        "x-scheme-handler/https" = "yandex-browser-stable.desktop";
+        "x-scheme-handler/about" = "yandex-browser-stable.desktop";
+        "x-scheme-handler/unknown" = "yandex-browser-stable.desktop";
+      };
+    };
+
+    # BROWSER env-переменная для CLI-тулзов (man-страницы с www-ссылками,
+    # `xdg-open` fallback, fish-helper `__fish_print_help`).
+    home.sessionVariables.BROWSER = "yandex-browser-stable";
   };
 }
