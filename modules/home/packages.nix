@@ -1,6 +1,6 @@
 { ... }: {
-  flake.homeModules.packages = { pkgs, ... }: {
-    home.packages = with pkgs; [
+  flake.homeModules.packages = { pkgs, inputs, ... }: {
+    home.packages = (with pkgs; [
       # --- Внешний вид / темы ---
       # Иконки Papirus / Adwaita / Hicolor / Breeze и курсор volantes
       # переехали в environment.systemPackages (modules/system/packages.nix),
@@ -66,6 +66,14 @@
 
       # --- Крипто/CLI ---
       openssl
+    ]) ++ [
+      # Yandex Browser — нет ни в nixpkgs, ни на Flathub. Берём из
+      # сторонней флейки miuirussia/yandex-browser.nix (распакованный
+      # .deb + autoPatchelfHook). Кэш собран в yandex-browser-nix.cachix.org,
+      # ключ подключён в modules/system/nix.nix. Обновлять браузер =
+      # `nix flake update yandex-browser` (Yandex чистит старые билды
+      # из репо, поэтому стоит держать lock свежим).
+      inputs.yandex-browser.packages.${pkgs.stdenv.hostPlatform.system}.yandex-browser-stable
     ];
 
     # pkgs.vim кладёт gvim.desktop в системный профиль, но самой
