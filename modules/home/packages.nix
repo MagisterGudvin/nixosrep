@@ -136,5 +136,16 @@
     # BROWSER env-переменная для CLI-тулзов (man-страницы с www-ссылками,
     # `xdg-open` fallback, fish-helper `__fish_print_help`).
     home.sessionVariables.BROWSER = "yandex-browser-stable";
+
+    # thunar-archive-plugin ищет backend-скрипты (`.tap`) в трёх местах:
+    # `~/.local/share/Thunar/thunar-archive-plugin/`, `$XDG_DATA_DIRS/Thunar/...`
+    # и своём собственном libexec. В Debian/Arch xarchiver и TAP делят
+    # `/usr/libexec/thunar-archive-plugin/` и видят друг друга; в NixOS
+    # каждый пакет лежит в своём /nix/store/...prefix и xarchiver.tap
+    # оказывается невидим для TAP — «Извлечь сюда» в thunar падает с
+    # «не найдено подходящего менеджера». Симлинком в XDG-data это
+    # фиксится без перенесения пакета в systemPackages.
+    xdg.dataFile."Thunar/thunar-archive-plugin/xarchiver.tap".source =
+      "${pkgs.xarchiver}/libexec/thunar-archive-plugin/xarchiver.tap";
   };
 }
