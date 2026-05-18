@@ -133,21 +133,8 @@
       };
     };
 
-    home.sessionVariables = {
-      # CLI-тулзы (man с www-ссылками, `xdg-open` fallback, fish-helper
-      # `__fish_print_help`).
-      BROWSER = "yandex-browser-stable";
-
-      # thunar-archive-plugin ищет backend-скрипты (`.tap`) только в
-      # `$THUNAR_ARCHIVE_PLUGIN_HELPERS_PATH` (если задан) или в своём
-      # собственном `libexec/thunar-archive-plugin/`. В Debian/Arch
-      # xarchiver и TAP делят `/usr/libexec/thunar-archive-plugin/` и
-      # видят друг друга; в NixOS каждый пакет лежит в своём
-      # /nix/store/...prefix и xarchiver.tap оказывается невидим —
-      # «Извлечь сюда» в thunar падает с «не найдено подходящего
-      # менеджера». Перебиваем lookup-path на libexec xarchiver'а.
-      THUNAR_ARCHIVE_PLUGIN_HELPERS_PATH =
-        "${pkgs.xarchiver}/libexec/thunar-archive-plugin";
-    };
+    # BROWSER для CLI-тулзов (man с www-ссылками, `xdg-open` fallback,
+    # fish-helper `__fish_print_help`).
+    home.sessionVariables.BROWSER = "yandex-browser-stable";
   };
 }
