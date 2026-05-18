@@ -1,11 +1,30 @@
 { ... }: {
-  flake.nixosModules.thunar = { pkgs, ... }: {
+  flake.nixosModules.thunar = { pkgs, ... }: let
+    # thunar-archive-plugin 0.6.0 захардкоживает путь к backend'ам
+    # (.tap-скриптам) на этапе сборки — на свой собственный
+    # $out/libexec/thunar-archive-plugin/. Env var, которая в старых
+    # версиях позволяла этот путь переопределить, в 0.6.0 убрали.
+    # В Debian/Arch xarchiver кладёт свой .tap в тот же /usr/libexec
+    # и проблемы нет; в NixOS каждый пакет в своём /nix/store-prefix.
+    # Пересобираем TAP с postInstall, который симлинкует xarchiver.tap
+    # в его libexec — теперь оба видят друг друга в одном prefix'е.
+    thunar-archive-plugin-with-xarchiver =
+      pkgs.thunar-archive-plugin.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          mkdir -p $out/libexec/thunar-archive-plugin
+          for tap in ${pkgs.xarchiver}/libexec/thunar-archive-plugin/*.tap; do
+            ln -sv "$tap" $out/libexec/thunar-archive-plugin/
+          done
+        '';
+      });
+  in {
     programs.thunar = {
       enable = true;
-      plugins = with pkgs; [
-        # «Извлечь сюда» / «Сжать в…» в контекстном меню. Использует
-        # бинарь xarchiver (ставится отдельно в home.packages).
-        thunar-archive-plugin
+      plugins = [
+        # «Извлечь сюда» / «Сжать в…» в контекстном меню. Backend —
+        # бинарь xarchiver (ставится в home.packages), .tap-скрипт
+        # подложен в libexec через override выше.
+        thunar-archive-plugin-with-xarchiver
       ];
     };
 
@@ -14,18 +33,5 @@
 
     # Поддержка иконок миниатюр (картинки/видео).
     services.tumbler.enable = true;
-
-    # thunar-archive-plugin (TAP) ищет backend-скрипты (.tap) только
-    # в $THUNAR_ARCHIVE_PLUGIN_HELPERS_PATH или в своём compile-time
-    # libexecdir. В NixOS xarchiver и TAP лежат в разных
-    # /nix/store/...prefix, и без перебития пути TAP не находит
-    # xarchiver.tap — «Извлечь сюда» в Thunar падает с «не найдено
-    # подходящего менеджера». environment.sessionVariables ставит
-    # переменную через PAM в самом начале логина, поэтому niri и
-    # любой запуск thunar (включая D-Bus activation) её наследуют.
-    # NB: environment.variables — это только /etc/profile (shell),
-    # для GUI-сессии нужна именно sessionVariables.
-    environment.sessionVariables.THUNAR_ARCHIVE_PLUGIN_HELPERS_PATH =
-      "${pkgs.xarchiver}/libexec/thunar-archive-plugin";
   };
 }
