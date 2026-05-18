@@ -33,6 +33,9 @@
       # --- Сеть / загрузки ---
       qbittorrent
 
+      # --- Мессенджеры ---
+      telegram-desktop
+
       # --- Экран / буфер обмена ---
       wlr-randr
       cliphist
