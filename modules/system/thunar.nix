@@ -2,7 +2,7 @@
   flake.nixosModules.thunar = { pkgs, ... }: {
     programs.thunar = {
       enable = true;
-      plugins = with pkgs.xfce; [
+      plugins = with pkgs; [
         # «Извлечь сюда» / «Сжать в…» в контекстном меню. Использует
         # бинарь xarchiver (ставится отдельно в home.packages).
         thunar-archive-plugin
