@@ -29,7 +29,10 @@
 | Login manager | greetd + tuigreet |
 | Терминал | kitty + fish + starship |
 | Файловый менеджер | thunar (GUI), yazi (TUI) |
-| Браузер | brave |
+| Браузер | Yandex Browser (через [miuirussia/yandex-browser.nix](https://github.com/miuirussia/yandex-browser.nix)), brave как fallback |
+| Мессенджеры | Telegram Desktop |
+| Загрузки | qBittorrent |
+| Эмуляторы | Cemu (Wii U) |
 | Аудио | pipewire (alsa + pulse + jack) |
 | Сеть | NetworkManager + nm-applet |
 | Лаунчер | noctalia app launcher (Super+Space), rofi |
@@ -49,6 +52,12 @@
 **Графика AMD:**
 - amdgpu в initrd, RADV (Vulkan), radeonsi (VAAPI/VDPAU).
 - 2560×1600 @ 120 Hz, VRR включён.
+- USB4 / Thunderbolt: boltd для авторизации hotplug-устройств (eGPU-док, TB4-storage).
+
+**Браузер по умолчанию:**
+- Yandex Browser ставится из стороннего флейка `miuirussia/yandex-browser.nix` (распаковка официального .deb + autoPatchelfHook), кэш через `yandex-browser-nix.cachix.org`.
+- `xdg.mimeApps` + `$BROWSER` указывают на него — ссылки из Telegram, noctalia, yazi и других приложений открываются в Yandex Browser.
+- Раз в неделю user-systemd таймер сравнивает rev из `flake.lock` с master upstream'а и шлёт notify-send, если флейк обновился (rebuild не запускает — решение за пользователем).
 
 **Прочее:**
 - Steam с Proton-GE и game-controllers-udev.
@@ -88,7 +97,7 @@
 | Биндинг | Действие |
 |---|---|
 | `Mod+Return` / `Mod+E` | kitty |
-| `Mod+B` | brave |
+| `Mod+B` | Yandex Browser |
 | `Mod+Q` | thunar |
 | `Mod+M` | cassette (Yandex Music) |
 | `Mod+V` | rofi-clipboard (cliphist) |
@@ -121,7 +130,7 @@
 
 ```
 .
-├── flake.nix                  # inputs: nixpkgs / flake-parts / niri / noctalia / home-manager
+├── flake.nix                  # inputs: nixpkgs / flake-parts / niri / noctalia / home-manager / yandex-browser
 ├── INSTALL.md                 # подробная инструкция по установке и сопровождению
 ├── modules/
 │   ├── flake-options.nix      # объявление flake.homeModules как mergeable lazy attrset
@@ -131,21 +140,23 @@
 │   │       ├── configuration.nix
 │   │       ├── default.nix
 │   │       └── hardware.nix
-│   ├── system/                # NixOS-модули: audio, boot, cpu, network, …
+│   ├── system/                # NixOS-модули
 │   │   ├── audio.nix
 │   │   ├── bluetooth.nix
 │   │   ├── boot.nix
 │   │   ├── cpu.nix
 │   │   ├── filesystems.nix
 │   │   ├── fonts.nix
+│   │   ├── fwupd.nix          # services.fwupd для LVFS-обновлений прошивок
 │   │   ├── greetd.nix
 │   │   ├── locale.nix
 │   │   ├── niri.nix
-│   │   ├── nix.nix
+│   │   ├── nix.nix            # substituters: + yandex-browser-nix.cachix.org
 │   │   ├── power.nix
 │   │   ├── radeon.nix
 │   │   ├── steam.nix
 │   │   ├── thunar.nix
+│   │   ├── thunderbolt.nix    # boltd + bolt CLI для USB4/TB-устройств (eGPU)
 │   │   ├── wireguard.nix
 │   │   └── …
 │   └── home/                  # Home-Manager модули для пользователя gooblin
@@ -157,8 +168,12 @@
 │       ├── kitty/             # терминал
 │       ├── niri/              # ~600 строк config.kdl через programs.niri.settings
 │       ├── noctalia/          # ~700 строк settings.json через programs.noctalia-shell.settings
-│       ├── packages.nix       # GUI/CLI приложения пользователя
+│       ├── obsidian/
+│       ├── packages.nix       # GUI/CLI приложения + xdg.mimeApps (default browser)
 │       ├── rofi/              # лаунчер и тема
+│       ├── tools.nix
+│       ├── yandex-update-check/  # weekly systemd-таймер → notify-send при новой версии флейка
+│       ├── yazi/
 │       └── …
 └── Pictures/
     └── previews/

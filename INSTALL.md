@@ -10,6 +10,7 @@
 - **niri:** через `niri-flake` (stable, v25.08+; обновляется `nix flake update niri`)
 - **noctalia:** мастер-ветка, обновляется `nix flake update noctalia`
 - **home-manager:** мастер, follows nixpkgs
+- **yandex-browser:** сторонний флейк `miuirussia/yandex-browser.nix` — официальный .deb распакован и пропатчен `autoPatchelfHook`. Кэш `yandex-browser-nix.cachix.org` подключён в `modules/system/nix.nix`.
 
 ---
 
@@ -92,7 +93,7 @@ sudo nixos-rebuild switch --flake .#forza
 ### 2.2. Обновить версии (flake.lock)
 
 ```bash
-# Обновить всё (nixpkgs, home-manager, noctalia, niri)
+# Обновить всё (nixpkgs, home-manager, noctalia, niri, yandex-browser)
 nix flake update
 
 # Обновить один input
@@ -103,6 +104,20 @@ sudo nixos-rebuild switch --flake .#forza
 ```
 
 `flake.lock` — это файл с точными SHA коммитов каждого input-а. Его **обязательно нужно коммитить в git**, иначе система перестанет быть воспроизводимой.
+
+### 2.2.1. Yandex Browser — отдельный цикл обновления
+
+Yandex чистит старые билды из своего .deb-репозитория, поэтому если `flake.lock` для `yandex-browser` отстал больше чем на месяц, при rebuild `fetchurl` упадёт на HTTP 404.
+
+Симптом — раз в неделю в notify-send прилетает «Yandex Browser: обновление». Это user-systemd-таймер (`yandex-browser-update-check`) сравнивает rev в `flake.lock` с master upstream'а и зовёт тебя обновить:
+
+```bash
+cd ~/nixosrep
+nix flake update yandex-browser
+sudo nixos-rebuild switch --flake .#forza
+```
+
+Принудительный запуск проверки (например, после восстановления из бэкапа): `systemctl --user start yandex-browser-update-check`. Журнал: `journalctl --user -u yandex-browser-update-check`.
 
 ### 2.3. Откатиться, если что-то сломалось
 
