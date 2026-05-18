@@ -20,10 +20,12 @@
     # libexecdir. В NixOS xarchiver и TAP лежат в разных
     # /nix/store/...prefix, и без перебития пути TAP не находит
     # xarchiver.tap — «Извлечь сюда» в Thunar падает с «не найдено
-    # подходящего менеджера». Системный environment.variables идёт
-    # через PAM в graphical-session, поэтому niri и любой запуск
-    # thunar через D-Bus подхватывают переменную.
-    environment.variables.THUNAR_ARCHIVE_PLUGIN_HELPERS_PATH =
+    # подходящего менеджера». environment.sessionVariables ставит
+    # переменную через PAM в самом начале логина, поэтому niri и
+    # любой запуск thunar (включая D-Bus activation) её наследуют.
+    # NB: environment.variables — это только /etc/profile (shell),
+    # для GUI-сессии нужна именно sessionVariables.
+    environment.sessionVariables.THUNAR_ARCHIVE_PLUGIN_HELPERS_PATH =
       "${pkgs.xarchiver}/libexec/thunar-archive-plugin";
   };
 }
