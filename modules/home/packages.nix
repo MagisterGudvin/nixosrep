@@ -50,6 +50,7 @@
 
       # --- Игры / Steam-обвязка ---
       protonplus                 # GUI для управления Proton-GE / Wine-GE / Luxtorpeda через Steam
+      cemu                       # эмулятор Wii U
 
       # --- Wayland-десктоп: лаунчер ---
                                  # kitty приходит через programs.kitty (modules/home/kitty)
