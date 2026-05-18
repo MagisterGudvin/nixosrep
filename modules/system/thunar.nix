@@ -1,8 +1,12 @@
 { ... }: {
-  flake.nixosModules.thunar = { ... }: {
+  flake.nixosModules.thunar = { pkgs, ... }: {
     programs.thunar = {
       enable = true;
-      plugins = [ ];
+      plugins = with pkgs.xfce; [
+        # «Извлечь сюда» / «Сжать в…» в контекстном меню. Использует
+        # бинарь xarchiver (ставится отдельно в home.packages).
+        thunar-archive-plugin
+      ];
     };
 
     # gvfs нужен для монтирования съёмных носителей и сетевых шар из Thunar.
