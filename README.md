@@ -99,7 +99,6 @@
 | `Mod+Return` / `Mod+E` | kitty |
 | `Mod+B` | Yandex Browser |
 | `Mod+Q` | thunar |
-| `Mod+M` | cassette (Yandex Music) |
 | `Mod+V` | rofi-clipboard (cliphist) |
 | `Mod+S` / `Mod+Shift+S` | screenshot (область / экран) |
 

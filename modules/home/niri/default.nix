@@ -333,7 +333,6 @@
           "Mod+E".action.spawn = [ "kitty" ];
           "Mod+B".action.spawn = [ "yandex-browser-stable" ];
           "Mod+Q".action.spawn = [ "thunar" ];
-          "Mod+M".action.spawn = [ "cassette" ];
 
           "Mod+Escape".action.spawn = [ noctalia "ipc" "call" "sessionMenu" "toggle" ];
           "Mod+Space".action.spawn = [ noctalia "ipc" "call" "launcher" "toggle" ];
@@ -418,8 +417,8 @@
           "Mod+Shift+P".action.spawn = [ "playerctl" "stop" ];
           "Mod+comma".action.spawn = [ "playerctl" "previous" ];
           "Mod+period".action.spawn = [ "playerctl" "next" ];
-          # Seek по 10 секунд через playerctl — нужен пока noctalia
-          # seek-bar не работает с cassette MPRIS.
+          # Seek по 10 секунд через playerctl — общий хоткей для любого
+          # MPRIS-плеера (браузер с Я.Музыкой, mpv и т.п.).
           "Mod+bracketright".action.spawn = [ "playerctl" "position" "10+" ];
           "Mod+bracketleft".action.spawn = [ "playerctl" "position" "10-" ];
 
