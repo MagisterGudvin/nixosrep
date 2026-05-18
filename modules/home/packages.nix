@@ -97,6 +97,12 @@
     # и т.п.). Без mimeApps.enable HM не пишет ~/.config/mimeapps.list,
     # и XDG берёт первый попавшийся .desktop с MimeType=text/html
     # (обычно brave из-за алфавитной сортировки).
+    #
+    # Для архивов и каталогов прибиваем дефолты к xarchiver / thunar,
+    # потому что org.pwmt.zathura-cb.desktop (плагин zathura для
+    # комиксов CBR/CBZ) объявляет жадный MimeType, включая обычные
+    # application/zip, application/x-tar, application/x-7z-compressed,
+    # и даже inode/directory.
     xdg.mimeApps = {
       enable = true;
       defaultApplications = {
@@ -106,6 +112,24 @@
         "x-scheme-handler/https" = "yandex-browser.desktop";
         "x-scheme-handler/about" = "yandex-browser.desktop";
         "x-scheme-handler/unknown" = "yandex-browser.desktop";
+
+        "inode/directory" = "thunar.desktop";
+
+        "application/zip" = "xarchiver.desktop";
+        "application/x-7z-compressed" = "xarchiver.desktop";
+        "application/x-tar" = "xarchiver.desktop";
+        "application/x-compressed-tar" = "xarchiver.desktop";
+        "application/x-rar" = "xarchiver.desktop";
+        "application/vnd.rar" = "xarchiver.desktop";
+        "application/gzip" = "xarchiver.desktop";
+        "application/x-bzip" = "xarchiver.desktop";
+        "application/x-bzip2" = "xarchiver.desktop";
+        "application/x-bzip-compressed-tar" = "xarchiver.desktop";
+        "application/x-bzip2-compressed-tar" = "xarchiver.desktop";
+        "application/x-xz" = "xarchiver.desktop";
+        "application/x-xz-compressed-tar" = "xarchiver.desktop";
+        "application/zstd" = "xarchiver.desktop";
+        "application/x-zstd-compressed-tar" = "xarchiver.desktop";
       };
     };
 
