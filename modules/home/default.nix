@@ -29,6 +29,7 @@
           self.homeModules.packages
           self.homeModules.rofi
           self.homeModules.tools
+          self.homeModules.yandex-update-check
           self.homeModules.yazi
         ];
 
