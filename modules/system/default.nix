@@ -6,7 +6,6 @@
       self.nixosModules.boot
       self.nixosModules.cpu
       self.nixosModules.filesystems
-      self.nixosModules.flatpak
       self.nixosModules.fonts
       self.nixosModules.fwupd
       self.nixosModules.greetd
