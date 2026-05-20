@@ -53,7 +53,6 @@
       blockbench                 # low-poly 3D model editor (Minecraft и др.)
 
       # --- Игры / Steam-обвязка ---
-      protonplus                 # GUI для управления Proton-GE / Wine-GE / Luxtorpeda через Steam
       cemu                       # эмулятор Wii U
 
       # --- Wayland-десктоп: лаунчер ---
