@@ -5,14 +5,7 @@
       # Иконки Papirus / Adwaita / Hicolor / Breeze и курсор volantes
       # переехали в environment.systemPackages (modules/system/packages.nix),
       # чтобы попадать в XDG_DATA_DIRS niri-сессии.
-      awww                       # просмотр и установка GTK/иконок/курсоров одной командой
       adw-gtk3                   # libadwaita-подобная тема для GTK3
-      waypaper                   # GUI для выбора обоев (swww/hyprpaper)
-
-      # --- Системные апплеты / статус ---
-      swaynotificationcenter     # swaync, демон уведомлений + swaync-client
-      nwg-drawer                 # лаунчер в стиле GNOME app-drawer
-      nwg-menu                   # меню для nwg-drawer / nwg-panel
 
       # --- Файловые менеджеры (TUI) ---
       yazi
@@ -41,7 +34,6 @@
       telegram-desktop
 
       # --- Экран / буфер обмена ---
-      wlr-randr
       cliphist
 
       # --- Офис / редакторы / браузер ---
@@ -62,7 +54,6 @@
       grim
       slurp
       swappy
-      grimblast
       imagemagick
       libnotify
 
@@ -90,22 +81,6 @@
       noDisplay = true;
     };
 
-    # waypaper в апстрим-.desktop ссылается на Icon=waypaper, которого
-    # нет в Papirus-Dark — лаунчер noctalia рисует fallback-шестерёнку.
-    # Подменяем Icon= на ближайшее имя из Papirus.
-    # XDG приоритет ~/.local/share/applications/ перебивает системные.
-    xdg.desktopEntries.waypaper = {
-      name = "Waypaper";
-      genericName = "Waypaper wallpaper setter";
-      comment = "Change wallpaper on Wayland and X11";
-      exec = "waypaper";
-      icon = "preferences-desktop-wallpaper";
-      type = "Application";
-      terminal = false;
-      categories = [ "Utility" "GTK" "DesktopSettings" ];
-      # Keywords HM не поддерживает напрямую в schema, поэтому опускаем —
-      # на работу лаунчера noctalia это не влияет.
-    };
 
     # Дефолтный браузер для всех http/https/файл-открытий из других
     # приложений (Telegram-ссылка, кнопка «открыть в браузере» в noctalia

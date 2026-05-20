@@ -188,8 +188,10 @@
         spawn-at-startup = [
           { command = [ noctalia ]; }
           { command = [ "xwayland-satellite" ]; }
-          { command = [ "sh" "-c" "wl-paste --type text --watch cliphist store" ]; }
-          { command = [ "sh" "-c" "wl-paste --type image --watch cliphist store" ]; }
+          # wl-paste --watch cliphist store запускает сама noctalia
+          # через clipboardWatchTextCommand / clipboardWatchImageCommand
+          # (см. modules/home/noctalia/default.nix). Дублировать тут
+          # нельзя — два watcher'а пишут в один store, плодят шум.
           # nm-applet даёт значок NetworkManager в Tray noctalia,
           # с подменю VPN/WireGuard для тоггла соединений.
           { command = [ "nm-applet" "--indicator" ]; }
