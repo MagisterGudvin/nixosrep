@@ -335,6 +335,11 @@
           "Mod+E".action.spawn = [ "kitty" ];
           "Mod+B".action.spawn = [ "yandex-browser-stable" ];
           "Mod+Q".action.spawn = [ "thunar" ];
+          # Запуск/вывод Steam из tray. Steam single-instance: если уже
+          # запущен и свёрнут в noctalia tray (через X11/SNI), второй
+          # вызов бинаря посылает существующему окну ShowGUI и возвращает
+          # его на экран. Если не запущен — стартует.
+          "Mod+G".action.spawn = [ "steam" ];
 
           "Mod+Escape".action.spawn = [ noctalia "ipc" "call" "sessionMenu" "toggle" ];
           "Mod+Space".action.spawn = [ noctalia "ipc" "call" "launcher" "toggle" ];

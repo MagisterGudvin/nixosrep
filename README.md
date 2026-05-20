@@ -103,6 +103,7 @@
 | `Mod+Return` / `Mod+E` | kitty |
 | `Mod+B` | Yandex Browser |
 | `Mod+Q` | thunar |
+| `Mod+G` | Steam (или вывод из tray, если уже запущен) |
 | `Mod+S` / `Mod+Shift+S` | screenshot (область / экран) |
 
 ### Noctalia
