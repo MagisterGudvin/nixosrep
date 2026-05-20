@@ -17,5 +17,12 @@
         Restart = "on-failure";
       };
     };
+
+    # niri-flake тащит свой polkit-kde-authentication-agent в составе
+    # niri-flake-polkit.service. Он стартует, видит уже занятый DBus-
+    # subject и пять раз падает с "An authentication agent already
+    # exists" → systemd упирается в start-limit-hit и пишет ERROR.
+    # У нас уже есть hyprpolkitagent выше, второй агент не нужен.
+    systemd.user.services.niri-flake-polkit.enable = false;
   };
 }

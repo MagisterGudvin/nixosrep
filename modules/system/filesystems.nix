@@ -34,11 +34,21 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-    # Auto mount
+    # Auto mount съёмного диска. nofail сам по себе не помогает —
+    # systemd всё равно ждёт устройство 90 секунд default-timeout,
+    # блокируя boot на каждой загрузке когда диск не воткнут.
+    # device-timeout=1 + automount: монтирование на первое обращение
+    # к /run/media/gooblin/lw, никаких ожиданий на старте.
     fileSystems."/run/media/gooblin/lw" = {
       device = "/dev/disk/by-label/lw";
       fsType = "ext4";
-      options = [ "defaults" "nofail" ];
+      options = [
+        "defaults"
+        "nofail"
+        "x-systemd.device-timeout=1"
+        "x-systemd.automount"
+        "x-systemd.idle-timeout=60"
+      ];
     };
 
     # Single swap-партиция на nvme0n1 (36 GiB) — sized for hibernate из 32 GB RAM
