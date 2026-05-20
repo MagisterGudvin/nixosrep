@@ -57,7 +57,6 @@
 
       # --- Wayland-десктоп: лаунчер ---
                                  # kitty приходит через programs.kitty (modules/home/kitty)
-                                 # rofi приходит через programs.rofi  (modules/home/rofi)
 
       # --- Скриншоты ---
       grim
@@ -91,18 +90,10 @@
       noDisplay = true;
     };
 
-    # rofi и waypaper в апстрим-.desktop ссылаются на Icon=rofi /
-    # Icon=waypaper, которых нет в Papirus-Dark — лаунчер noctalia
-    # рисует fallback-шестерёнку. Подменяем Icon= на ближайшие имена
-    # из Papirus: app-launcher и preferences-desktop-wallpaper.
+    # waypaper в апстрим-.desktop ссылается на Icon=waypaper, которого
+    # нет в Papirus-Dark — лаунчер noctalia рисует fallback-шестерёнку.
+    # Подменяем Icon= на ближайшее имя из Papirus.
     # XDG приоритет ~/.local/share/applications/ перебивает системные.
-    xdg.desktopEntries.rofi = {
-      name = "Rofi";
-      exec = "rofi -show";
-      icon = "app-launcher";
-      type = "Application";
-      terminal = false;
-    };
     xdg.desktopEntries.waypaper = {
       name = "Waypaper";
       genericName = "Waypaper wallpaper setter";

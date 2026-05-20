@@ -35,7 +35,7 @@
 | Эмуляторы | Cemu (Wii U) |
 | Аудио | pipewire (alsa + pulse + jack) |
 | Сеть | NetworkManager + nm-applet |
-| Лаунчер | noctalia app launcher (Super+Space), rofi |
+| Лаунчер | noctalia app launcher (Super+Space) |
 
 ## Features
 
@@ -99,7 +99,6 @@
 | `Mod+Return` / `Mod+E` | kitty |
 | `Mod+B` | Yandex Browser |
 | `Mod+Q` | thunar |
-| `Mod+V` | rofi-clipboard (cliphist) |
 | `Mod+S` / `Mod+Shift+S` | screenshot (область / экран) |
 
 ### Noctalia
@@ -169,7 +168,6 @@
 │       ├── noctalia/          # ~700 строк settings.json через programs.noctalia-shell.settings
 │       ├── obsidian/
 │       ├── packages.nix       # GUI/CLI приложения + xdg.mimeApps (default browser)
-│       ├── rofi/              # лаунчер и тема
 │       ├── tools.nix
 │       ├── yandex-update-check/  # weekly systemd-таймер → notify-send при новой версии флейка
 │       ├── yazi/

@@ -340,8 +340,6 @@
           "Mod+Shift+Comma".action.spawn = [ noctalia "ipc" "call" "settings" "toggle" ];
           "Mod+W".action.spawn = [ noctalia "ipc" "call" "wallpaper" "toggle" ];
 
-          "Mod+V".action.spawn = [ "sh" "-c" "cliphist list | rofi -dmenu -p ' Clipboard' | cliphist decode | wl-copy" ];
-
           # --- Screenshots ---
           "Mod+S".action.spawn = [ "niri-screenshot" ];
           "Mod+Shift+S".action.spawn = [ "niri-screenshot" "screen" ];
