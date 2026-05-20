@@ -321,9 +321,24 @@ ls /boot/loader/entries/
 ```bash
 journalctl -xeu nixos-rebuild
 journalctl -b -p err                         # ошибки текущей загрузки
+journalctl -b -1 -p err                      # ошибки предыдущей загрузки
 sudo nixos-rebuild switch --flake .#forza --show-trace
 journalctl --user -b _COMM=niri --no-pager   # лог niri-сессии
+systemctl --failed --no-pager                # упавшие system-юниты
+systemctl --user --failed --no-pager         # упавшие user-юниты
+systemctl is-system-running                  # 'running' = ok, 'degraded' = есть failed
+systemd-analyze blame | head                 # топ-замедлителей boot'а
+systemd-analyze critical-chain               # критическая цепочка boot'а
 ```
+
+Известный фон, лечению не подлежит и не индикатор реальных проблем:
+- `ACPI BIOS Error: AE_ALREADY_EXISTS` ×8 — баг в прошивке MECHREVO, ОС не лечит
+- `dbus-broker Ignoring duplicate name ...` (~50 строк) — нормальная архитектура NixOS, service-файлы попадают в `system-path` и в `dbus-1/` одного пакета
+- `bluetoothd: Failed to set default system config for hci0` — прошивка BT-чипа не принимает все mgmt-параметры ядра
+- `bluetoothd: Error reading PNP_ID: Invalid pdu length` — конкретное paired BT-устройство шлёт битый DIS-профиль
+- `hyprpolkitagent: Failed to register with host portal QDBusError ... Could not register app ID` — косметика, polkit-диалоги работают (`pkexec id` подтверждает)
+- `wireplumber: Failed to get percentage from UPower: NameHasNoOwner` — race condition при старте, через секунду UPower поднимается и всё ок
+- `niri WARN: EglExtensionNotSupported(["EGL_WL_bind_wayland_display"])` — это опциональное расширение, на Mesa+Radeon отсутствует штатно
 
 ### Hibernate
 Размер swap-партиции (36 GiB) рассчитан под RAM 32 GiB + 4 GiB margin. После загрузки:
@@ -341,6 +356,40 @@ sudo nmcli connection modify <name> connection.autoconnect yes
 ```
 
 Управлять — через значок `nm-applet` в Tray noctalia (он автостартует с niri). ЛКМ/ПКМ по значку → **VPN Connections** → имя профиля → тоггл.
+
+### Steam / игры
+
+Современные DX12/Vulkan игры на niri лучше запускать с `PROTON_USE_WAYLAND=1` — это говорит Proton-GE использовать нативный wayland-driver wine'а вместо XWayland. Картинка идёт прямо в `steam_app_*` surface, никаких чёрных окон, тайл нормально фуллскринится.
+
+В Steam → Свойства игры → Параметры запуска:
+```
+PROTON_USE_WAYLAND=1 %command%
+```
+
+Для старых DX9/DX11 — оставлять параметры пустыми, обычный XWayland-режим. `gamescope` на niri не работает (`xdg-toplevel` не маппится в композитор), не использовать.
+
+### Съёмные диски
+
+В `modules/system/filesystems.nix` объявлен mount-point `/run/media/gooblin/lw` с опцией `x-systemd.automount`. Диск **не обязан быть подключён** при загрузке — systemd ставит lazy-mount, монтирует на первое обращение, отмонтирует через 60 секунд idle.
+
+Чтобы добавить ещё один съёмный диск, по аналогии:
+```nix
+fileSystems."/run/media/gooblin/<label>" = {
+  device = "/dev/disk/by-label/<label>";
+  fsType = "ext4";   # или btrfs, exfat, ntfs3 и т.д.
+  options = [
+    "defaults"
+    "nofail"
+    "x-systemd.device-timeout=1"
+    "x-systemd.automount"
+    "x-systemd.idle-timeout=60"
+  ];
+};
+```
+
+### Архивы / Thunar «Извлечь сюда»
+
+В NixOS thunar-archive-plugin (TAP) и xarchiver лежат в разных store-prefix, и TAP не находит `xarchiver.tap` (apstream рассчитан на /usr/libexec/). В `modules/system/thunar.nix` мы пересобираем TAP через `overrideAttrs.postInstall`, который симлинкует все `.tap` из xarchiver в libexec TAP'а. Никаких ручных действий не требуется — «Извлечь сюда» работает из коробки.
 
 CLI-альтернативы: `nmcli connection up <name>`, `nmcli connection down <name>`, `nmtui`.
 

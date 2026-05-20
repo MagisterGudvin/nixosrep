@@ -54,16 +54,20 @@
 - 2560×1600 @ 120 Hz, VRR включён.
 - USB4 / Thunderbolt: boltd для авторизации hotplug-устройств (eGPU-док, TB4-storage).
 
-**Браузер по умолчанию:**
+**Браузер и MIME-defaults:**
 - Yandex Browser ставится из стороннего флейка `miuirussia/yandex-browser.nix` (распаковка официального .deb + autoPatchelfHook), кэш через `yandex-browser-nix.cachix.org`.
 - `xdg.mimeApps` + `$BROWSER` указывают на него — ссылки из Telegram, noctalia, yazi и других приложений открываются в Yandex Browser.
-- Раз в неделю user-systemd таймер сравнивает rev из `flake.lock` с master upstream'а и шлёт notify-send, если флейк обновился (rebuild не запускает — решение за пользователем).
+- Архивные MIME-типы (zip, 7z, tar, rar, gz, bz2, xz, zst) явно прибиты к `xarchiver.desktop`, а `inode/directory` — к `thunar.desktop`, чтобы перебить жадный `org.pwmt.zathura-cb.desktop`, который иначе перехватывал double-click по архивам и папкам.
+- Раз в неделю user-systemd таймер сравнивает rev из `flake.lock` с master upstream'а и шлёт notify-send, если флейк Yandex Browser обновился (rebuild не запускает — решение за пользователем).
 
 **Прочее:**
-- Steam с Proton-GE и game-controllers-udev.
+- Steam с Proton-GE и game-controllers-udev. Для современных DX12/Vulkan игр на niri используется `PROTON_USE_WAYLAND=1 %command%` в параметрах запуска — нативный wayland-driver wine минует XWayland и работает с тайловым композитором без сюрпризов.
 - WireGuard через NetworkManager + nm-applet tray-icon.
 - Hibernate-aware bootloader: systemd-boot, лимит 5 поколений в меню, GC раз в неделю.
 - Терминальные приложения (btop, nvim, yazi, visidata) запускаются из лаунчера через `kitty -e`.
+- Съёмный диск с меткой `lw` подцепляется через systemd `x-systemd.automount` — boot его не ждёт, монтируется при первом обращении к `/run/media/gooblin/lw`, автоматически отмонтируется через 60 секунд idle.
+- thunar-archive-plugin собран с симлинком на `xarchiver.tap` в своём `libexec` (нужно для пункта «Извлечь сюда» в контекстном меню — иначе TAP в NixOS не видит backend xarchiver).
+- PolicyKit-агент: `hyprpolkitagent` (запускается как user systemd-сервис). Встроенный в niri-flake `polkit-kde-authentication-agent` отключён, чтобы не конкурировать за один DBus-subject.
 
 ## Keybindings
 
@@ -150,10 +154,11 @@
 │   │   ├── locale.nix
 │   │   ├── niri.nix
 │   │   ├── nix.nix            # substituters: + yandex-browser-nix.cachix.org
+│   │   ├── polkit.nix         # hyprpolkitagent + disable niri-flake-polkit
 │   │   ├── power.nix
 │   │   ├── radeon.nix
 │   │   ├── steam.nix
-│   │   ├── thunar.nix
+│   │   ├── thunar.nix         # TAP с симлинком на xarchiver.tap в libexec
 │   │   ├── thunderbolt.nix    # boltd + bolt CLI для USB4/TB-устройств (eGPU)
 │   │   ├── wireguard.nix
 │   │   └── …
