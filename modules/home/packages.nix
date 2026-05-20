@@ -91,6 +91,31 @@
       noDisplay = true;
     };
 
+    # rofi и waypaper в апстрим-.desktop ссылаются на Icon=rofi /
+    # Icon=waypaper, которых нет в Papirus-Dark — лаунчер noctalia
+    # рисует fallback-шестерёнку. Подменяем Icon= на ближайшие имена
+    # из Papirus: app-launcher и preferences-desktop-wallpaper.
+    # XDG приоритет ~/.local/share/applications/ перебивает системные.
+    xdg.desktopEntries.rofi = {
+      name = "Rofi";
+      exec = "rofi -show";
+      icon = "app-launcher";
+      type = "Application";
+      terminal = false;
+    };
+    xdg.desktopEntries.waypaper = {
+      name = "Waypaper";
+      genericName = "Waypaper wallpaper setter";
+      comment = "Change wallpaper on Wayland and X11";
+      exec = "waypaper";
+      icon = "preferences-desktop-wallpaper";
+      type = "Application";
+      terminal = false;
+      categories = [ "Utility" "GTK" "DesktopSettings" ];
+      # Keywords HM не поддерживает напрямую в schema, поэтому опускаем —
+      # на работу лаунчера noctalia это не влияет.
+    };
+
     # Дефолтный браузер для всех http/https/файл-открытий из других
     # приложений (Telegram-ссылка, кнопка «открыть в браузере» в noctalia
     # и т.п.). Без mimeApps.enable HM не пишет ~/.config/mimeapps.list,
