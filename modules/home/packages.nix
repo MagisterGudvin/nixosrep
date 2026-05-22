@@ -19,7 +19,7 @@
 
       # --- Просмотр / медиа ---
       gthumb
-      vlc
+      celluloid
       zathura
 
       # --- Сеть / загрузки ---

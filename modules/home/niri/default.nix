@@ -222,7 +222,7 @@
             open-floating = true;
           }
           {
-            matches = [ { app-id = "^(imv|vlc)$"; } ];
+            matches = [ { app-id = "^(imv|io\\.github\\.celluloid_player\\.Celluloid)$"; } ];
             open-floating = true;
           }
           {
@@ -423,7 +423,7 @@
           "Mod+comma".action.spawn = [ "playerctl" "previous" ];
           "Mod+period".action.spawn = [ "playerctl" "next" ];
           # Seek по 10 секунд через playerctl — общий хоткей для любого
-          # MPRIS-плеера (браузер с Я.Музыкой, vlc и т.п.).
+          # MPRIS-плеера (браузер с Я.Музыкой, celluloid и т.п.).
           "Mod+bracketright".action.spawn = [ "playerctl" "position" "10+" ];
           "Mod+bracketleft".action.spawn = [ "playerctl" "position" "10-" ];
 
