@@ -2,9 +2,9 @@
   flake.homeModules.yandex-update-check = { pkgs, ... }: {
     # Раз в неделю спрашиваем github-api: совпадает ли rev из
     # flake.lock с текущим master в miuirussia/yandex-browser.nix.
-    # Если нет — notify-send в noctalia/swaync. Сам lock не трогаем,
-    # rebuild не запускаем — это императивные действия и пусть юзер
-    # делает их сам, когда захочет.
+    # Если нет — notify-send в noctalia (она наш notification daemon).
+    # Сам lock не трогаем, rebuild не запускаем — это императивные
+    # действия и пусть юзер делает их сам, когда захочет.
     systemd.user.services.yandex-browser-update-check = {
       Unit = {
         Description = "Check upstream yandex-browser.nix flake for new commits";

@@ -33,6 +33,7 @@
 | Мессенджеры | Telegram Desktop |
 | Загрузки | qBittorrent |
 | Эмуляторы | Cemu (Wii U) |
+| Медиа | celluloid (GTK4-фронтенд mpv: внешние аудио-дорожки, нативный Wayland), gthumb, zathura |
 | Аудио | pipewire (alsa + pulse + jack) |
 | Сеть | NetworkManager + nm-applet |
 | Лаунчер | noctalia app launcher (Super+Space) |

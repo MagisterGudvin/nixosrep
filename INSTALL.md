@@ -366,7 +366,7 @@ sudo nmcli connection modify <name> connection.autoconnect yes
 PROTON_USE_WAYLAND=1 %command%
 ```
 
-Для старых DX9/DX11 — оставлять параметры пустыми, обычный XWayland-режим. `gamescope` на niri не работает (`xdg-toplevel` не маппится в композитор), не использовать.
+Для старых DX9/DX11 — оставлять параметры пустыми, обычный XWayland-режим. `gamescope` в конфиге не установлен и в niri не маппится (`xdg-toplevel` не появляется в композиторе) — не пытаться использовать.
 
 ### Съёмные диски
 
