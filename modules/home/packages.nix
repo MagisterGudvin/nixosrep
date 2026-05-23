@@ -24,6 +24,7 @@
 
       # --- Сеть / загрузки ---
       qbittorrent
+      parabolic                  # GTK4 GUI для yt-dlp, скачивание видео с YouTube и др.
 
       # --- Архиваторы ---
       xarchiver                  # GTK GUI, открывается через «Извлечь сюда» в thunar
