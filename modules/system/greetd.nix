@@ -11,13 +11,13 @@
       };
     };
 
-    # tuigreet с --remember-user-session пишет последний выбор в
-    # /var/cache/tuigreet/state.toml. NixOS этот каталог сам не создаёт;
-    # без него запись молча падает и на каждом логине сеанс приходится
-    # выбирать заново. Владельцем должен быть пользователь greeter.
-    systemd.tmpfiles.rules = [
-      "d /var/cache/tuigreet 0755 greeter greeter - -"
-    ];
+    # /var/cache/tuigreet нужен для --remember-user-session (tuigreet
+    # пишет туда state.toml). Раньше NixOS-модуль greetd этот каталог
+    # не создавал — приходилось добавлять вручную через
+    # systemd.tmpfiles.rules. В свежем nixpkgs (см. /etc/tmpfiles.d/
+    # 00-nixos.conf) каталог уже создаётся самим модулем, поэтому
+    # ручное правило убрано — иначе systemd-tmpfiles ругается на
+    # "Duplicate line".
 
     # greetd PAM-стек по умолчанию тянет pam_gnome_keyring.so для
     # автоматической разблокировки keyring при входе. У нас keyring
