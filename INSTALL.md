@@ -317,6 +317,122 @@ sudo nix-env --list-generations -p /nix/var/nix/profiles/system
 ls /boot/loader/entries/
 ```
 
+### Полная очистка системы
+
+Несколько слоёв «мусора», которые накапливаются вне Nix-store и не подметаются автоGC. Команды можно запускать выборочно — каждый блок независим.
+
+**1. Nix-кэши и старые поколения**
+
+```bash
+sudo nix-collect-garbage -d        # системные поколения, кроме текущего
+nix-collect-garbage -d              # user-поколения (home-manager)
+sudo /run/current-system/bin/switch-to-configuration boot
+rm -rf ~/.cache/nix ~/.cache/nix-flakes 2>/dev/null
+sudo nix-store --optimise           # дедуп через hard-link'и
+```
+
+**2. История команд (фоновое хранение всего, что ты набирал)**
+
+```bash
+# atuin (наш дефолтный backend истории — SQLite, перехватывает Up-arrow и Ctrl+R)
+rm ~/.local/share/atuin/history.db*
+
+# fish_history (родная история fish)
+rm ~/.local/share/fish/fish_history
+
+# bash_history (если иногда запускал bash)
+rm ~/.bash_history 2>/dev/null
+
+# less, python-REPL, neovim ShaDa — мелкая мелочь
+rm -f ~/.lesshst ~/.python_history
+rm -rf ~/.local/share/nvim/shada 2>/dev/null
+```
+
+После — закрой все kitty (`pkill kitty`), при следующем открытии стрелка-вверх будет пустой.
+
+**3. SSH-следы (`~/.ssh/known_hosts`)**
+
+```bash
+# Что в файле сейчас
+awk '{print $1}' ~/.ssh/known_hosts | sort -u
+
+# Удалить конкретный сервер (оставит github и прочее нужное)
+ssh-keygen -R 1.2.3.4
+ssh-keygen -R example.com
+
+# Снести весь файл (при следующем ssh нужно будет подтверждать fingerprint'ы заново)
+rm ~/.ssh/known_hosts ~/.ssh/known_hosts.old 2>/dev/null
+```
+
+**4. journald-логи**
+
+```bash
+sudo journalctl --disk-usage
+sudo journalctl --vacuum-time=7d      # оставить только последние 7 дней
+sudo journalctl --vacuum-size=500M    # или ограничить общий размер
+```
+
+**5. XDG-кэш приложений (`~/.cache/`)**
+
+```bash
+du -sh ~/.cache/* 2>/dev/null | sort -h | tail -10   # топ-10 пожирателей
+rm -rf ~/.cache/thumbnails             # миниатюры
+rm -rf ~/.cache/mesa_shader_cache      # GL shaders
+rm -rf ~/.cache/radv                   # Vulkan RADV cache
+rm -rf ~/.cache/yandex-browser ~/.cache/BraveSoftware  # кэш браузеров (профиль не трогаем)
+```
+
+**6. Steam — shader cache, не сами игры**
+
+```bash
+du -sh ~/.local/share/Steam/steamapps/shadercache
+rm -rf ~/.local/share/Steam/steamapps/shadercache
+# Игра при следующем запуске пересоберёт шейдеры (первая минута будет лагать).
+```
+
+Если совсем сломан Proton-префикс для какой-то игры — снести его персонально (не общий!):
+```bash
+ls ~/.local/share/Steam/steamapps/compatdata/      # appid'ы
+rm -rf ~/.local/share/Steam/steamapps/compatdata/<appid>
+```
+
+**7. Home-Manager backup-файлы**
+
+При каждой activation home-manager делает `.bak` для файлов, которые пишет поверх юзерских. С годами их накапливается:
+
+```bash
+find ~/.config ~/.local/share -name "*.bak" 2>/dev/null | head
+find ~/.config ~/.local/share -name "*.bak" -delete
+```
+
+**8. `/tmp` и `/var/tmp`**
+
+```bash
+sudo du -sh /tmp /var/tmp
+# /tmp обычно tmpfs (RAM) — очищается на reboot, не трогаем
+# /var/tmp — на диске:
+sudo systemd-tmpfiles --clean
+```
+
+**Одной командой — «всё что не страшно сразу»:**
+
+```bash
+sudo nix-collect-garbage -d && \
+nix-collect-garbage -d && \
+rm -rf ~/.cache/nix ~/.cache/thumbnails ~/.cache/mesa_shader_cache ~/.cache/radv && \
+rm -f ~/.local/share/atuin/history.db* ~/.local/share/fish/fish_history ~/.bash_history && \
+find ~/.config ~/.local/share -name "*.bak" -delete && \
+sudo journalctl --vacuum-time=7d && \
+sudo /run/current-system/bin/switch-to-configuration boot && \
+sudo nix-store --optimise && \
+df -h | grep -vE "tmpfs|devtmpfs"
+```
+
+**Что НЕ трогать руками:**
+- `/nix/store/*` — только через `nix-collect-garbage`. Любой `rm` там → сломанная система.
+- `~/.local/share/Steam/steamapps/common/*` — это сами игры (десятки гигабайт каждая). Удалять через Steam UI.
+- `~/.config/*` без понимания что чистишь — там твои настройки, профили, ключи. Браузерные `~/.cache/*` чистить можно, `~/.config/yandex-browser` (профиль) — нет.
+
 ### Что сломалось — где смотреть
 ```bash
 journalctl -xeu nixos-rebuild
